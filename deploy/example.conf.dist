@@ -1,0 +1,5 @@
+
+export HOST=""
+export USERNAME=""
+export TARGET_PATH="" # don't put ending slash.
+export TARGET_GROUP="" # won't be used if empty.

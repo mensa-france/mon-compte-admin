@@ -1,0 +1,18 @@
+$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+
+// bower:scss
+@import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss';
+// endbower
+
+body {
+	padding-top: 50px; // Height of bootstrap navbar.
+}
+
+.navbar-brand {
+	.version {
+		font-size: 0.6em;
+		//font-style: italic;
+		font-weight: normal;
+		opacity: 0.6;
+	}
+}

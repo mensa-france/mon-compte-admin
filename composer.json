@@ -1,0 +1,12 @@
+{
+	"require": {
+		"php": ">=5.4.4",
+		"doctrine/orm": "2.4.*",
+		"katzgrau/klogger": "1.0.*"
+	},
+	"autoload": {
+		"psr-4": {
+			"MonCompte\\": "lib/"
+		}
+	}
+}

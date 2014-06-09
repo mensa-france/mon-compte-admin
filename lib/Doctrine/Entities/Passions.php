@@ -45,7 +45,7 @@ class Passions implements \JsonSerializable
     /**
      * @var \Membres
      *
-     * @ORM\ManyToOne(targetEntity="Membres", inversedBy="passions")
+     * @ORM\ManyToOne(targetEntity="Membres")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_membre", referencedColumnName="id_membre")
      * })

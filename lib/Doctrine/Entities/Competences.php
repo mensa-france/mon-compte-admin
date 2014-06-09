@@ -45,7 +45,7 @@ class Competences implements \JsonSerializable
     /**
      * @var \Membres
      *
-     * @ORM\ManyToOne(targetEntity="Membres", inversedBy="competences")
+     * @ORM\ManyToOne(targetEntity="Membres")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_membre", referencedColumnName="id_membre")
      * })

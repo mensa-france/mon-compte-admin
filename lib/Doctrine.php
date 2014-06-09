@@ -55,6 +55,10 @@ class Doctrine {
 		return self::executeQuerySingleResult('SELECT m FROM MonCompte\Doctrine\Entities\Membres m WHERE m.idAncienSi = :id',['id'=>$numeroMembre]);
 	}
 
+	public static function listMembres() {
+		return self::getEntityManager()->getRepository("MonCompte\Doctrine\Entities\Membres")->findAll();
+	}
+
 	public static function persist($entity) {
 		self::getEntityManager()->persist($entity);
 	}

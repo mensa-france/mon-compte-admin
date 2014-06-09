@@ -45,7 +45,7 @@ class Langues implements \JsonSerializable
     /**
      * @var \Membres
      *
-     * @ORM\ManyToOne(targetEntity="Membres", inversedBy="langues")
+     * @ORM\ManyToOne(targetEntity="Membres")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_membre", referencedColumnName="id_membre")
      * })

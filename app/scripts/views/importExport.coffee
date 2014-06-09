@@ -4,6 +4,5 @@ define [
 ],(Marionette, hbsTemplate)->
 
 	class ImportExportView extends Marionette.ItemView
+		className: 'importExport'
 		template: hbsTemplate
-
-		onRender: ->

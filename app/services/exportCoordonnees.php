@@ -35,4 +35,6 @@ if (count($membres) > 0) {
 	fputcsv($outstream, $keys, CSV_SEPARATOR, CSV_DELIMITER);
 	array_walk($membres, '__outputCSV', $outstream);
 	fclose($outstream);
+} else {
+	echo 'AUCUN_MEMBRE_TROUVE';
 }

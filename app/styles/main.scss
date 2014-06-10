@@ -24,5 +24,31 @@ body {
 		width: auto;
 		margin-bottom: 15px;
 	}
+
+	iframe {
+		margin-top: 15px;
+		display: none;
+	}
+
+	#messageZone {
+		.alert {
+			margin-top: 10px;
+			margin-bottom: 0;
+
+			.message {
+				white-space: pre-line;
+			}
+		}
+	}
+
+	.waitIndicator {
+		$side: 33px;
+		height: $side;
+		width: $side;
+
+		display: inline-block;
+		vertical-align: bottom;
+		position: relative;
+	}
 }
 

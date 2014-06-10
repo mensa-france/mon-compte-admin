@@ -38,9 +38,12 @@
 			<form class="importCotisations" enctype="multipart/form-data" method="POST" target="cotisationTarget" action="services/importCotisations.php">
 				<input type="file" class="form-control fileselector" required="true" name="csv-cotisations">
 				<button type="submit" class="btn btn-danger importCotisations">Importer les cotisations</button>
+				<div class="waitIndicator"></div>
 			</form>
 
 			<iframe name="cotisationTarget" id="hiddenCotisationTarget"></iframe>
+
+			<div id="messageZone"></div>
 		</fieldset>
 	</div>
 </div>

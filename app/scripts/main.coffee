@@ -20,6 +20,8 @@ require.config
 
 		consolePolyfill: '../bower_components/console-polyfill/index'
 
+		spin: '../bower_components/spinjs/spin'
+
 	shim:
 		bootstrap:
 			deps: ['jquery']

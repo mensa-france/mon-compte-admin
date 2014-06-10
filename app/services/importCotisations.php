@@ -26,7 +26,7 @@ $logger = Logger::getLogger('services/importCotisations');
 $errors = [];
 $message = null;
 
-if (isset($_FILES[FILE_INPUT_NAME])) {
+if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 	$logger->info('Received file:'.$_FILES[FILE_INPUT_NAME]['tmp_name']);
 
 	if (($handle = fopen($_FILES[FILE_INPUT_NAME]['tmp_name'], "r")) !== FALSE) {

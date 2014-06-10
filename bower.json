@@ -17,8 +17,5 @@
     "console-polyfill": "~0.1.1",
     "spinjs": "~2.0.1"
   },
-  "devDependencies": {},
-  "resolutions": {
-    "jquery": "~1.11.0"
-  }
+  "devDependencies": {}
 }

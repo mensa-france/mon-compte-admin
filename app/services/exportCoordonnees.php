@@ -29,7 +29,7 @@ if (count($membres) > 0) {
 	function __outputCSV(&$membre, $key, $filehandler) {
 		$vals = $membre->jsonSerialize(); // Convert Membres instance to value array.
 		fputcsv($filehandler, $vals, CSV_SEPARATOR, CSV_DELIMITER);
-		Doctrine::detach($membre);
+		Doctrine::detach($membre); // Free doctrine associated resources to avoid memory buildup.
 	}
 	fputcsv($outstream, $keys, CSV_SEPARATOR, CSV_DELIMITER);
 	array_walk($membres, '__outputCSV', $outstream);

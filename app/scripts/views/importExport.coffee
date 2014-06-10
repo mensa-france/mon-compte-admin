@@ -34,6 +34,7 @@ define [
 			cotisationSubmitButton: 'button.importCotisations'
 			messageZone: '#messageZone'
 			waitZone: '.waitIndicator'
+			fileSelector: '.fileselector'
 
 		events:
 			'submit form.importCotisations': 'handleCotisationFormSubmit'
@@ -45,7 +46,12 @@ define [
 		getIframeContent: =>
 			@ui.cotisationIframe.contents().text()
 
-		handleCotisationFormSubmit: ->
+		handleCotisationFormSubmit: (event)->
+			if not @ui.fileSelector.val()? || @ui.fileSelector.val() is ''
+				@showError 'Erreur', 'Vous devez sélectionner un fichier.'
+				event.preventDefault()
+				return false
+
 			@cotisationSubmitted = true
 			@ui.cotisationSubmitButton.attr 'disabled',true
 			@clearMessage()

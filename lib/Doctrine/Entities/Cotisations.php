@@ -3,6 +3,7 @@
 namespace MonCompte\Doctrine\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use MonCompte\Format;
 
 /**
  * Cotisations
@@ -66,7 +67,7 @@ class Cotisations
     /**
      * @var \Membres
      *
-     * @ORM\ManyToOne(targetEntity="Membres")
+     * @ORM\ManyToOne(targetEntity="Membres", inversedBy="cotisations")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_membre", referencedColumnName="id_membre")
      * })
@@ -161,7 +162,7 @@ class Cotisations
      */
     public function setDateDebut($dateDebut)
     {
-        $this->dateDebut = $dateDebut;
+        $this->dateDebut = Format::filterDateTime($dateDebut);
 
         return $this;
     }
@@ -173,7 +174,7 @@ class Cotisations
      */
     public function getDateDebut()
     {
-        return $this->dateDebut;
+        return Format::date($this->dateDebut);
     }
 
     /**
@@ -184,7 +185,7 @@ class Cotisations
      */
     public function setDateFin($dateFin)
     {
-        $this->dateFin = $dateFin;
+        $this->dateFin = Format::filterDateTime($dateFin);
 
         return $this;
     }
@@ -196,7 +197,7 @@ class Cotisations
      */
     public function getDateFin()
     {
-        return $this->dateFin;
+        return Format::date($this->dateFin);
     }
 
     /**

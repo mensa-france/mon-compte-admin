@@ -18,3 +18,29 @@
 		</fieldset>
 	</div>
 </div>
+
+<div class="panel panel-danger">
+	<div class="panel-heading">
+		<h3 class="panel-title">Imports</h3>
+	</div>
+	<div class="panel-body">
+		<fieldset>
+			<legend>Cotisations</legend>
+			<ul>
+				<li>numero_membre</li>
+				<li>region</li>
+				<li>tarif (plein, etudiant, etc.)</li>
+				<li>montant (en euros)</li>
+				<li>date_debut (YYYY-MM-DD)</li>
+				<li>date_fin (YYYY-MM-DD)</li>
+			</ul>
+
+			<form class="importCotisations" enctype="multipart/form-data" method="POST" target="cotisationTarget" action="services/importCotisations.php">
+				<input type="file" class="form-control fileselector" required="true" name="csv-cotisations">
+				<button type="submit" class="btn btn-danger importCotisations">Importer les cotisations</button>
+			</form>
+
+			<iframe name="cotisationTarget" id="hiddenCotisationTarget"></iframe>
+		</fieldset>
+	</div>
+</div>

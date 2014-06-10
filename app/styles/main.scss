@@ -6,6 +6,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 
 body {
 	padding-top: 50px; // Height of bootstrap navbar.
+	background-color: #aaa;
 }
 
 .navbar-brand {
@@ -19,4 +20,9 @@ body {
 
 .importExport {
 	padding-top: 20px;
+	input.fileselector {
+		width: auto;
+		margin-bottom: 15px;
+	}
 }
+

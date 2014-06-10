@@ -147,6 +147,11 @@ class Membres implements \JsonSerializable
     private $coordonnees;
 
     /**
+     * @ORM\OneToMany(targetEntity="Cotisations", mappedBy="idMembre", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $cotisations;
+
+    /**
      * Get idMembre
      *
      * @return integer
@@ -453,7 +458,7 @@ class Membres implements \JsonSerializable
      */
     public function setDateInscription($dateInscription)
     {
-        $this->dateInscription = Format::filterDateTime($dateNaissance);
+        $this->dateInscription = Format::filterDateTime($dateInscription);
 
         return $this;
     }
@@ -575,34 +580,20 @@ class Membres implements \JsonSerializable
     	return null;
     }
 
-    private function removeCoordonnees($type)
-    {
-    	$toBeRemoved = [];
-
-    	foreach ($this->coordonnees as $coordonnee) {
-    		if ($coordonnee->getTypeCoordonnee() == $type)
-    			$toBeRemoved[] = $coordonnee;
-    	}
-
-    	foreach ($toBeRemoved as $element)
-    		$this->coordonnees->removeElement($element);
+    public function getCotisations() {
+    	return $this->cotisations->toArray();
     }
 
-    public function setCoordonnee($type, $value, $isPrivate = false) {
-    	if (is_string($isPrivate))
-    		$isPrivate = $isPrivate === 'true'; // Json decode outputs strings and not booleans...
+    public function addCotisation($cotisationData) {
+		$newCotisation = new Cotisations();
+		$newCotisation->setTarif($cotisationData['tarif']);
+		$newCotisation->setMontant($cotisationData['montant']);
+		$newCotisation->setDateDebut($cotisationData['date_debut']);
+		$newCotisation->setDateFin($cotisationData['date_fin']);
+		$newCotisation->setRegion($cotisationData['region']);
+   		$newCotisation->setIdMembre($this);
 
-    	$this->removeCoordonnees($type);
-
-    	$newEmail = new Coordonnees();
-    	$newEmail->setIdCoordonnee(0); // Setting 0 will generate appropriate value.
-    	$newEmail->setIdMembre($this);
-    	$newEmail->setTypeCoordonnee($type);
-    	$newEmail->setCoordonnee($value);
-    	$newEmail->setUsageCoordonnee('home');
-    	$newEmail->setReserveeGestionAsso($isPrivate);
-
-    	$this->coordonnees[] = $newEmail;
+    	$this->cotisations->add($newCotisation);
     }
 
 	public function jsonSerialize()

@@ -66,4 +66,8 @@ class Doctrine {
 	public static function flush() {
 		self::getEntityManager()->flush();
 	}
+
+	public static function detach($entity) {
+		self::getEntityManager()->detach($entity);
+	}
 }

@@ -1,7 +1,5 @@
 <?php
 
-ini_set('memory_limit', '256M');
-
 require_once __DIR__.'/../../vendor/autoload.php';
 
 use MonCompte\Doctrine;
@@ -28,9 +26,10 @@ if (count($membres) > 0) {
 	}
 
 	$outstream = fopen("php://output", 'w');
-	function __outputCSV(&$vals, $key, $filehandler) {
-		$vals = $vals->jsonSerialize(); // Convert Membres instance to value array.
+	function __outputCSV(&$membre, $key, $filehandler) {
+		$vals = $membre->jsonSerialize(); // Convert Membres instance to value array.
 		fputcsv($filehandler, $vals, CSV_SEPARATOR, CSV_DELIMITER);
+		Doctrine::detach($membre);
 	}
 	fputcsv($outstream, $keys, CSV_SEPARATOR, CSV_DELIMITER);
 	array_walk($membres, '__outputCSV', $outstream);

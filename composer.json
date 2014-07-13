@@ -3,7 +3,8 @@
 		"php": ">=5.4.4",
 		"doctrine/orm": "2.4.*",
 		"katzgrau/klogger": "1.0.*",
-		"sergeytsalkov/meekrodb": "2.3.*"
+		"sergeytsalkov/meekrodb": "2.3.*",
+		"geekality/timer": "1.*"
 	},
 	"autoload": {
 		"psr-4": {

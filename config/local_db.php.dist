@@ -1,0 +1,11 @@
+<?php
+
+// the connection configuration
+$dbParams = [
+	'user'     => '',
+	'password' => '',
+	'dbname'   => '',
+	'host'     => '',
+	'port'     => '',
+	'charset'  => 'utf8',
+];

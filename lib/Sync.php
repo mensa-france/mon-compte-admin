@@ -179,4 +179,18 @@ class Sync {
 
 		Queries::createCoordonees($coordonneesList);
 	}
+
+	public static function fetchFile($url) {
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_HEADER, 0);
+		curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/533.18.1 (KHTML, like Gecko) Version/5.0 Safari/533.16");
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+		$result = curl_exec($curl);
+		curl_close($curl);
+
+		return $result;
+	}
 }

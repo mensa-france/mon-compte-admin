@@ -5,12 +5,12 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use MonCompte\Doctrine;
 use MonCompte\Logger;
 
-define('CSV_SEPARATOR',';');
+define('CSV_SEPARATOR',"\t");
 define('CSV_DELIMITER','"');
 
 $timestamp = date('Ymd-Hms');
 
-header("Content-type: text/csv");
+header("Content-type: text/csv; charset=iso-8859-1'");
 header("Content-Disposition: attachment; filename={$timestamp}-export_coordonnees_membres_mensa.csv");
 
 $logger = Logger::getLogger('services/exportCoordonnees');
@@ -28,6 +28,10 @@ if (count($membres) > 0) {
 	$outstream = fopen("php://output", 'w');
 	function __outputCSV(&$membre, $key, $filehandler) {
 		$vals = $membre->jsonSerialize(); // Convert Membres instance to value array.
+
+		foreach ($vals as $key => $value) // Convert all values to iso latin
+			$vals[$key] = utf8_decode($value);
+
 		fputcsv($filehandler, $vals, CSV_SEPARATOR, CSV_DELIMITER);
 		Doctrine::detach($membre); // Free doctrine associated resources to avoid memory buildup.
 	}

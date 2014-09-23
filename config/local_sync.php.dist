@@ -1,7 +1,0 @@
-<?php
-
-// Configuration used for member db sync.
-
-$config = [
-	'CURL_URL' => '',
-];

@@ -609,7 +609,6 @@ class Membres implements \JsonSerializable
 			array_push($adresseTokens, '');
 
 		return [
-			'id' => $this->getIdMembre(),
 			'numero' => $this->getIdAncienSi(),
 			'nom' => $this->getNom(),
 			'prenom' => $this->getPrenom(),

@@ -610,7 +610,7 @@ class Membres implements \JsonSerializable
 			array_push($adresseTokens, '');
 
 		return [
-			'numero' => $this->getIdAncienSi(),
+			'numero_membre' => $this->getIdAncienSi(),
 			'nom' => $this->getNom(),
 			'prenom' => $this->getPrenom(),
 			'region' => $this->getRegion(),
@@ -619,7 +619,7 @@ class Membres implements \JsonSerializable
 			'adresse2' => $adresseTokens[1],
 			'adresse3' => $adresseTokens[2],
 			'ville' => $adresseValue ? $adresseValue->city : '',
-			'codePostal' => $adresseValue ? $adresseValue->code : '',
+			'code_postal' => $adresseValue ? $adresseValue->code : '',
 			'pays' => $adresseValue ? $adresseValue->country : '',
 		];
 	}

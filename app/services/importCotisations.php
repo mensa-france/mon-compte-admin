@@ -7,8 +7,8 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use MonCompte\Doctrine;
 use MonCompte\Logger;
 
-define('FILE_INPUT_NAME','csv-cotisations');
-define('CSV_SEPARATOR',';');
+define('FILE_INPUT_NAME','csv-import');
+define('CSV_SEPARATOR',"\t");
 define('CSV_DELIMITER','"');
 define('BATCH_SIZE',100);
 

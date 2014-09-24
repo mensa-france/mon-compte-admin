@@ -30,40 +30,40 @@ define [
 		template: hbsTemplate
 
 		ui:
-			cotisationIframe: 'iframe#hiddenCotisationTarget'
-			cotisationSubmitButton: 'button.importCotisations'
-			messageZone: '#messageZone'
+			iframe: 'iframe'
+			submitButton: 'button.import'
+			messageZone: '.messageZone'
 			waitZone: '.waitIndicator'
 			fileSelector: '.fileselector'
 
 		events:
-			'submit form.importCotisations': 'handleCotisationFormSubmit'
-			'load iframe#hiddenCotisationTarget': 'handleCotisationImportFinished'
+			'submit form': 'handleFormSubmit'
+			'load iframe': 'handleImportFinished'
 
 		onRender: ->
-			@ui.cotisationIframe.load @handleCotisationImportFinished
+			@ui.iframe.load @handleImportFinished
 
 		getIframeContent: =>
-			@ui.cotisationIframe.contents().text()
+			@ui.iframe.contents().text()
 
-		handleCotisationFormSubmit: (event)->
+		handleFormSubmit: (event)->
 			if not @ui.fileSelector.val()? || @ui.fileSelector.val() is ''
 				@showError 'Erreur', 'Vous devez sélectionner un fichier.'
 				event.preventDefault()
 				return false
 
-			@cotisationSubmitted = true
-			@ui.cotisationSubmitButton.attr 'disabled',true
+			@formSubmitted = true
+			@ui.submitButton.attr 'disabled',true
 			@clearMessage()
 
 			@spinner = new Spin(SPIN_OPTIONS).spin(@ui.waitZone[0])
 
-		handleCotisationImportFinished: =>
-			if not @cotisationSubmitted
+		handleImportFinished: =>
+			if not @formSubmitted
 				# then it's just the view loading.
 				return
 
-			@ui.cotisationSubmitButton.removeAttr 'disabled'
+			@ui.submitButton.removeAttr 'disabled'
 			@spinner?.stop()
 			delete @spinner
 

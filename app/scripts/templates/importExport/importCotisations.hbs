@@ -5,19 +5,19 @@
 	<ul>
 		<li>numero_membre</li>
 		<li>region</li>
-		<li>tarif (plein, etudiant, etc.)</li>
-		<li>montant (en euros)</li>
-		<li>date_debut (YYYY-MM-DD)</li>
-		<li>date_fin (YYYY-MM-DD)</li>
+		<li>tarif <span class="muted">(plein, etudiant, etc.)</span></li>
+		<li>montant <span class="muted">(en euros)</span></li>
+		<li>date_debut <span class="muted">(YYYY-MM-DD)</span></li>
+		<li>date_fin <span class="muted">(YYYY-MM-DD)</span></li>
 	</ul>
 
-	<form class="importCotisations" enctype="multipart/form-data" method="POST" target="cotisationTarget" action="services/importCotisations.php">
-		<input type="file" class="form-control fileselector" required="true" name="csv-cotisations">
-		<button type="submit" class="btn btn-danger importCotisations">Importer les cotisations</button>
+	<form class="importForm" enctype="multipart/form-data" method="POST" target="cotisationTarget" action="services/importCotisations.php">
+		<input type="file" class="form-control fileselector" required="true" name="csv-import">
+		<button type="submit" class="btn btn-danger import">Importer les cotisations</button>
 		<div class="waitIndicator"></div>
 	</form>
 
-	<iframe name="cotisationTarget" id="hiddenCotisationTarget"></iframe>
+	<iframe name="cotisationTarget"></iframe>
 
-	<div id="messageZone"></div>
+	<div class="messageZone"></div>
 </div>

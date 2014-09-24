@@ -95,6 +95,16 @@ Si dans le fichier de configuration de déploiement la variable `TARGET_GROUP` e
 
 Si la variable est vide ou absente, aucune modification ne sera effectuée.
 
+Test
+----
+
+* Afin de tester le bon fonctionnement des services d'import, il est possible de simuler le formulaire grâce à l'outil [cURL](http://fr.wikipedia.org/wiki/CURL). Pour cela vous pouvez utiliser la commande suivante :  
+```curl -F csv-import=@<CHEMIN_DU_FICHIER_A_UPLOADER> <URL_DU_SERVICE>```  
+  
+  Exemple:  
+  ```curl -F csv-import=@test/testCotisations.csv http://localhost:9000/services/importCotisations.php```
+
+
 License
 -------
 Mon-compte-admin est distribué sous [licence publique générale GNU v2](http://www.gnu.org/licenses/gpl-2.0.html) ou supérieure.

@@ -16,5 +16,3 @@
 *.swp
 
 /deploy/*.conf
-
-/test

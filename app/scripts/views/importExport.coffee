@@ -3,7 +3,8 @@ define [
 	'hbs!templates/importExport'
 	'views/importExport/exportCoordonnees'
 	'views/importExport/importCotisations'
-],(Marionette, hbsTemplate, ExportCoordonneesView, ImportCotisationsView)->
+	'views/importExport/importMembres'
+],(Marionette, hbsTemplate, ExportCoordonneesView, ImportCotisationsView, ImportMembresView)->
 
 	class ImportExportView extends Marionette.Layout
 		className: 'importExport'
@@ -16,4 +17,5 @@ define [
 
 		onRender: ->
 			@region1.show new ExportCoordonneesView
-			@region2.show new ImportCotisationsView
+			@region2.show new ImportMembresView
+			@region3.show new ImportCotisationsView

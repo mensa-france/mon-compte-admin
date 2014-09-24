@@ -1,0 +1,23 @@
+<div class="panel-heading">
+	<h3 class="panel-title">Imports Membres</h3>
+</div>
+<div class="panel-body">
+	<ul>
+		<li>numero_membre</li>
+		<li>region</li>
+		<li>prenom</li>
+		<li>nom</li>
+		<li>date_naissance <span class="muted">(YYYY-MM-DD)</span></li>
+		<li>date_inscription <span class="muted">(YYYY-MM-DD)</span></li>
+	</ul>
+
+	<form class="importForm" enctype="multipart/form-data" method="POST" target="importMembreTarget" action="services/importMembres.php">
+		<input type="file" class="form-control fileselector" required="true" name="csv-import">
+		<button type="submit" class="btn btn-danger import">Importer les membres</button>
+		<div class="waitIndicator"></div>
+	</form>
+
+	<iframe name="importMembreTarget"></iframe>
+
+	<div class="messageZone"></div>
+</div>

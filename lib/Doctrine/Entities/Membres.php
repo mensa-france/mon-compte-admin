@@ -170,6 +170,7 @@ class Membres implements \JsonSerializable
     public function setIdAncienSi($idAncienSi)
     {
         $this->idAncienSi = $idAncienSi;
+        $this->setPseudonyme($idAncienSi);
 
         return $this;
     }
@@ -481,7 +482,7 @@ class Membres implements \JsonSerializable
      */
     public function setRegion($region)
     {
-        $this->region = $region;
+        $this->region = strtoupper($region);
 
         return $this;
     }

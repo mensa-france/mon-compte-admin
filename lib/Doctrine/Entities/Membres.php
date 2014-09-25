@@ -308,11 +308,26 @@ class Membres implements \JsonSerializable
      */
     public function setCivilite($civilite)
     {
+        switch (strtolower($civilite)) {
+        	case 'm.':
+        	case 'mr':
+        		$civilite = 'mister';
+        		break;
+        	case 'mlle':
+        		$civilite = 'ms';
+        		break;
+        	case 'mme':
+        		$civilite = 'mrs';
+        		break;
+        	default:
+        		$civilite = null;
+        		break;
+        }
+
         $this->civilite = $civilite;
 
         switch ($civilite) {
         	case 'mister':
-        	case 'mr':
         		$this->setGenre(0);
         		break;
         	case 'ms':

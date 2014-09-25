@@ -581,6 +581,37 @@ class Membres implements \JsonSerializable
     	return null;
     }
 
+    public function setEmail($email) {
+    	$this->addCoordonnee('email', $email);
+    }
+
+    public function setTelephone($telephone) {
+    	$this->addCoordonnee('phone', $telephone);
+    }
+
+    public function setAdresse($adresse1,$adresse2,$adresse3,$ville,$codePostal,$pays) {
+    	$value = [
+    		'address' => trim("{$adresse1}\n{$adresse2}\n{$adresse3}"),
+    		'city' => $ville,
+    		'code' => $codePostal,
+    		'country' => $pays,
+    	];
+
+    	$this->addCoordonnee('address', json_encode($value));
+    }
+
+    private function addCoordonnee($type, $value) {
+    	$newCoordonnee = new Coordonnees();
+    	$newCoordonnee->setIdMembre($this);
+    	$newCoordonnee->setIdCoordonnee(0); // Setting 0 will generate appropriate value.
+    	$newCoordonnee->setTypeCoordonnee($type);
+    	$newCoordonnee->setCoordonnee($value);
+    	$newCoordonnee->setUsageCoordonnee('home');
+    	$newCoordonnee->setReserveeGestionAsso(true); // Default to true, member will change it if they want to.
+
+    	$this->coordonnees[] = $newCoordonnee;
+    }
+
     public function getCotisations() {
     	return $this->cotisations->toArray();
     }

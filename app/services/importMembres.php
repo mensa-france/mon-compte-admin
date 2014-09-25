@@ -7,6 +7,7 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use MonCompte\Doctrine;
 use MonCompte\Logger;
 use MonCompte\Doctrine\Entities\Membres;
+use MonCompte\Doctrine\Entities\Coordonnees;
 
 define('FILE_INPUT_NAME','csv-import');
 define('CSV_SEPARATOR',"\t");
@@ -21,6 +22,7 @@ $EXPECTED_FIELDS = [
 	'nom',
 	'date_naissance',
 	'date_inscription',
+	'email',
 ];
 
 $logger = Logger::getLogger('services/importMembres');
@@ -59,6 +61,7 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 				#$logger->debug('Processing member: '.$numeroMembre);
 
 				$modifiedMembre = null;
+				$isNew = false;
 
 				if (isset($mappedMembres[$numeroMembre])) {
 					$currentMembre = $mappedMembres[$numeroMembre];
@@ -92,12 +95,25 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 
 					$modifiedMembre = $newMembre;
 					$modified = true;
+
+					$isNew = true;
 				}
 
 				if ($modifiedMembre) {
 					$logger->debug("Persisting membre: {$numeroMembre}");
+
+					if ($isNew) {
+						// We need to persist & flush before being able to set any coordonnee on the new membre. (because of table joints)
+						Doctrine::persist($modifiedMembre);
+						Doctrine::flush();
+						$membreBuffer = [];
+
+						$modifiedMembre->setEmail($importData['email']);
+					}
+
 					Doctrine::persist($modifiedMembre);
 					$membreBuffer[] = $modifiedMembre; // Used to free memory.
+
 				}
 
 				if ($modifiedMembre && count($membreBuffer) >= BATCH_SIZE) {

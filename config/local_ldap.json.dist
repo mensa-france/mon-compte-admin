@@ -1,0 +1,8 @@
+
+{
+	"host": "localhost",
+	"port": 1389,
+	"userdn": "cn=root",
+	"password": "secret",
+	"basedn": "ou=people, dc=mensa-france, dc=org"
+}

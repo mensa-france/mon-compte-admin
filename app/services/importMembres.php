@@ -23,6 +23,7 @@ $EXPECTED_FIELDS = [
 	'date_naissance',
 	'date_inscription',
 	'email',
+	'telephone',
 ];
 
 $logger = Logger::getLogger('services/importMembres');
@@ -109,6 +110,7 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 						$membreBuffer = [];
 
 						$modifiedMembre->setEmail($importData['email']);
+						$modifiedMembre->setTelephone($importData['telephone']);
 					}
 
 					Doctrine::persist($modifiedMembre);

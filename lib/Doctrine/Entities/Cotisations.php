@@ -208,7 +208,7 @@ class Cotisations
      */
     public function setRegion($region)
     {
-        $this->region = $region;
+        $this->region = strtoupper($region);
 
         return $this;
     }

@@ -21,3 +21,4 @@ trim_trailing_whitespace = false
 
 [test/*.csv]
 charset = latin1
+trim_trailing_whitespace = false

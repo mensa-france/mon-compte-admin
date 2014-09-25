@@ -24,6 +24,12 @@ $EXPECTED_FIELDS = [
 	'date_inscription',
 	'email',
 	'telephone',
+	'adresse1',
+	'adresse2',
+	'adresse3',
+	'ville',
+	'code_postal',
+	'pays',
 ];
 
 $logger = Logger::getLogger('services/importMembres');
@@ -111,6 +117,7 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 
 						$modifiedMembre->setEmail($importData['email']);
 						$modifiedMembre->setTelephone($importData['telephone']);
+						$modifiedMembre->setAdresse($importData['adresse1'],$importData['adresse2'],$importData['adresse3'],$importData['ville'],$importData['code_postal'],$importData['pays']);
 					}
 
 					Doctrine::persist($modifiedMembre);

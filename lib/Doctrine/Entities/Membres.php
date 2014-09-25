@@ -312,6 +312,7 @@ class Membres implements \JsonSerializable
 
         switch ($civilite) {
         	case 'mister':
+        	case 'mr':
         		$this->setGenre(0);
         		break;
         	case 'ms':

@@ -115,9 +115,14 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 						Doctrine::flush();
 						$membreBuffer = [];
 
-						$modifiedMembre->setEmail($importData['email']);
-						$modifiedMembre->setTelephone($importData['telephone']);
-						$modifiedMembre->setAdresse($importData['adresse1'],$importData['adresse2'],$importData['adresse3'],$importData['ville'],$importData['code_postal'],$importData['pays']);
+						if ($importData['email'])
+							$modifiedMembre->setEmail($importData['email']);
+
+						if ($importData['telephone'])
+							$modifiedMembre->setTelephone($importData['telephone']);
+
+						if ($importData['adresse1'])
+							$modifiedMembre->setAdresse($importData['adresse1'],$importData['adresse2'],$importData['adresse3'],$importData['ville'],$importData['code_postal'],$importData['pays']);
 					}
 
 					Doctrine::persist($modifiedMembre);

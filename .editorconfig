@@ -19,6 +19,6 @@ insert_final_newline = true
 [*.md]
 trim_trailing_whitespace = false
 
-[test/*.csv]
+[etc/*.csv]
 charset = latin1
 trim_trailing_whitespace = false

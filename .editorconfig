@@ -22,3 +22,7 @@ trim_trailing_whitespace = false
 [etc/*.csv]
 charset = latin1
 trim_trailing_whitespace = false
+
+[**.Txt]
+charset = latin1
+trim_trailing_whitespace = false

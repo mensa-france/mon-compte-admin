@@ -48,8 +48,12 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 
 			while (($data = fgetcsv($handle,0,CSV_SEPARATOR,CSV_DELIMITER)) !== FALSE) {
 				$namedData = [];
-				foreach ($labels as $index => $label)
-					$namedData[$label] = utf8_encode($data[$index]);
+				foreach ($labels as $index => $label) {
+					if (!isset($data[$index]))
+						$data[$index] = '';
+
+					$namedData[$label] = utf8_encode($data[$index]?:'');
+				}
 
 				if (!isset($mappedImportRows[$namedData['numero_membre']]))
 					$mappedImportRows[$namedData['numero_membre']] = [];

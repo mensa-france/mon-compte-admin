@@ -55,6 +55,8 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 					$namedData[$label] = utf8_encode($data[$index]?:'');
 				}
 
+				$namedData['numero_membre'] = preg_replace('/^0+/','',$namedData['numero_membre']); // Remove leading 0s.
+
 				if (!isset($mappedImportRows[$namedData['numero_membre']]))
 					$mappedImportRows[$namedData['numero_membre']] = [];
 

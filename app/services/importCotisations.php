@@ -37,8 +37,14 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 
 			while (($data = fgetcsv($handle,0,CSV_SEPARATOR,CSV_DELIMITER)) !== FALSE) {
 				$namedData = [];
-				foreach ($labels as $index => $label)
+				foreach ($labels as $index => $label) {
+					if (!isset($data[$index]))
+						$data[$index] = '';
+
 					$namedData[$label] = $data[$index];
+				}
+
+				$namedData['numero_membre'] = preg_replace('/^0+/','',$namedData['numero_membre']); // Remove leading 0s.
 
 				if (!isset($mappedCotisations[$namedData['numero_membre']]))
 					$mappedCotisations[$namedData['numero_membre']] = [];

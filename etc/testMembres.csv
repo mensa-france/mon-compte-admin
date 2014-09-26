@@ -1,3 +1,3 @@
 numero_membre	region	civilite	prenom	nom	date_naissance	date_inscription	email	telephone	adresse1	adresse2	adresse3	ville	code_postal	pays
-5116	ral	mr	Nicol‡s	LeclËrc	1975-04-24	2001-03-12	dummy@example.com	dummy						
-1000000000	idf	mr	JoÈ	Bl‡ckÁ	1988-06-17	2005-09-01	joeblack@example.com	06 01 02 03 04	10 rue du squ‚re	chez tonton	‡ cÙtÈ du puis	La-Ville-du-Bois	99000	France
+5116	ral	mr	Nicol√†s	Lecl√®rc	24/04/1975	12/03/2001	dummy@example.com	dummy
+1000000000	idf	mr	Jo√©	Bl√†ck√ß	17/06/1988	01/09/2005	joeblack@example.com		10 rue du squ√¢re	chez tonton	√† c√¥t√© du puis	La-Ville-du-Bois	99000	France

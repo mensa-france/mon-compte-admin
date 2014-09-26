@@ -17,9 +17,17 @@ class Format {
 	public static function filterDateTime($dateTime) {
 		if (!$dateTime)
 			$dateTime = null;
-		else if (!($dateTime instanceof DateTime))
+		else if (!($dateTime instanceof DateTime)) {
+			if (is_string($dateTime))
+				$dateTime = self::filterStringDate($dateTime);
+
 			$dateTime = new DateTime($dateTime);
+		}
 
 		return $dateTime;
+	}
+
+	private static function filterStringDate($stringDate) {
+		return preg_replace('/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/', '$3-$2-$1', $stringDate);
 	}
 }

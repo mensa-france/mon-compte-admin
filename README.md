@@ -102,7 +102,8 @@ Test
 ```curl -F csv-import=@<CHEMIN_DU_FICHIER_A_UPLOADER> <URL_DU_SERVICE>```  
   
   Exemple:  
-  ```curl -F csv-import=@test/testCotisations.csv http://localhost:9000/services/importCotisations.php```
+  ```curl -F csv-import=@etc/testCotisations.csv http://localhost:9000/services/importCotisations.php```  
+  ```curl -F csv-import=@etc/testMembres.csv http://localhost:9000/services/importMembres.php```
 
 
 License

@@ -3,6 +3,7 @@
 namespace MonCompte\DB;
 
 use \DB as DB;
+use \MonCompte\Format;
 
 class Queries {
 	private static $initialized;
@@ -22,6 +23,21 @@ class Queries {
 		}
 	}
 
+	public static function startTransaction() {
+		self::initialize();
+		return DB::startTransaction();
+	}
+
+	public static function commit() {
+		self::initialize();
+		return DB::commit();
+	}
+
+	public static function rollback() {
+		self::initialize();
+		return DB::rollback();
+	}
+
 	public static function hasMembre($numeroMembre) {
 		self::initialize();
 
@@ -33,9 +49,24 @@ class Queries {
 		return false;
 	}
 
-	public static function listNumerosMembres() {
+	public static function findMembreId($numeroMembre) {
 		self::initialize();
-		return DB::queryOneColumn('id_ancien_si', 'SELECT id_ancien_si FROM membres ORDER BY id_ancien_si');
+		return DB::queryOneField('id_membre', 'SELECT * FROM membres WHERE id_ancien_si = %i', $numeroMembre);
+	}
+
+	public static function listNumerosMembresWithIds() {
+		self::initialize();
+		return DB::query('SELECT id_ancien_si, id_membre FROM membres ORDER BY id_ancien_si');
+	}
+
+	public static function mapNumerosMembresWithIds() {
+		$list = self::listNumerosMembresWithIds();
+		$result = [];
+
+		foreach ($list as $row)
+			$result[$row['id_ancien_si']] = $row['id_membre'];
+
+		return $result;
 	}
 
 	public static function findMembre($numeroMembre) {
@@ -54,12 +85,55 @@ class Queries {
 
 	public static function updateMembre($numeroMembre, $data) {
 		self::initialize();
+		$data = self::filterMembreData($data);
 		DB::update('membres', $data, 'id_ancien_si = %i', $numeroMembre);
 	}
 
-	public static function createMembre($data) {
+	public static function createMembre($numeroMembre, $data) {
 		self::initialize();
+		$data['id_ancien_si'] = $numeroMembre;
+		$data['pseudonyme'] = $numeroMembre;
+
+		$data = self::filterMembreData($data);
+
 		DB::insert('membres', $data);
+	}
+
+	private static function filterMembreData($data) {
+		if (isset($data['civilite'])) {
+			$civilite = $data['civilite'];
+
+			switch (strtolower($civilite)) {
+				case 'm.':
+				case 'mr':
+				case 'mister':
+					$civilite = 'mister';
+					$data['genre'] = 0;
+					break;
+				case 'mlle':
+				case 'ms':
+					$civilite = 'ms';
+					$data['genre'] = 1;
+					break;
+				case 'mme':
+				case 'mrs':
+					$civilite = 'mrs';
+					$data['genre'] = 1;
+					break;
+				default:
+					$civilite = null;
+					break;
+			}
+
+			$data['civilite'] = $civilite;
+		}
+
+		foreach ($data as $key => $value) {
+			if (preg_match('/^date_/', $key))
+				$data[$key] = Format::filterStringDate($data[$key]);
+		}
+
+		return $data;
 	}
 
 	public static function listCotisations($membreSystemId) {
@@ -72,8 +146,36 @@ class Queries {
 		DB::insert('cotisations', $data);
 	}
 
-	public static function createCoordonees($data) {
+	public static function createCoordonees($membreId, $type, $value) {
 		self::initialize();
+
+		$data = [
+			'id_membre' => $membreId,
+			'type_coordonnee' => $type,
+			'coordonnee' => $value,
+			'usage_coordonnee' => 'home',
+			'reservee_gestion_asso' => true,
+		];
+
 		DB::insert('coordonnees', $data);
+	}
+
+	public static function createEmail($membreId, $email) {
+		self::createCoordonees($membreId, 'email', $email);
+	}
+
+	public static function createPhone($membreId, $phone) {
+		self::createCoordonees($membreId, 'phone', $phone);
+	}
+
+	public static function createAddress($membreId, $adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='') {
+		$value = json_encode([
+			'address' => trim("{$adresse1}\n{$adresse2}\n{$adresse3}"),
+			'city' => $ville,
+			'code' => $codePostal,
+			'country' => $pays,
+		]);
+
+		self::createCoordonees($membreId, 'address', $value);
 	}
 }

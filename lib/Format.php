@@ -27,7 +27,7 @@ class Format {
 		return $dateTime;
 	}
 
-	private static function filterStringDate($stringDate) {
+	public static function filterStringDate($stringDate) {
 		return preg_replace('/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/', '$3-$2-$1', $stringDate);
 	}
 }

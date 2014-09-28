@@ -14,4 +14,17 @@ class Arrays {
 
 		return $result;
 	}
+
+	public static function filterKeys($source, $validKeys) {
+		$result = [];
+
+		foreach ($validKeys as $key) {
+			if (isset($source[$key]))
+				$result[$key] = $source[$key];
+			else
+				$result[$key] = null;
+		}
+
+		return $result;
+	}
 }

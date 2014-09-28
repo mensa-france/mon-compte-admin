@@ -41,7 +41,7 @@ class Queries {
 	public static function hasMembre($numeroMembre) {
 		self::initialize();
 
-		$result = DB::queryFirstRow('SELECT id_ancien_si FROM membres WHERE id_ancien_si = %i', $numeroMembre);
+		$result = DB::queryFirstRow('SELECT id_ancien_si FROM Membres WHERE id_ancien_si = %i', $numeroMembre);
 
 		if ($result)
 			return true;
@@ -51,12 +51,12 @@ class Queries {
 
 	public static function findMembreId($numeroMembre) {
 		self::initialize();
-		return DB::queryOneField('id_membre', 'SELECT * FROM membres WHERE id_ancien_si = %i', $numeroMembre);
+		return DB::queryOneField('id_membre', 'SELECT * FROM Membres WHERE id_ancien_si = %i', $numeroMembre);
 	}
 
 	public static function listNumerosMembresWithIds() {
 		self::initialize();
-		return DB::query('SELECT id_ancien_si, id_membre FROM membres ORDER BY id_ancien_si');
+		return DB::query('SELECT id_ancien_si, id_membre FROM Membres ORDER BY id_ancien_si');
 	}
 
 	public static function mapNumerosMembresWithIds() {
@@ -71,12 +71,12 @@ class Queries {
 
 	public static function listMembres() {
 		self::initialize();
-		return DB::query('SELECT id_membre, id_ancien_si as numero_membre, nom, prenom, region FROM membres WHERE prenom != "Betâ" AND prenom != "--" AND prenom != "-" AND prenom != "" AND prenom NOT LIKE "- %" AND region != "ETR" AND region != "INT" ORDER BY id_ancien_si');
+		return DB::query('SELECT id_membre, id_ancien_si as numero_membre, nom, prenom, region FROM Membres WHERE prenom != "Betâ" AND prenom != "--" AND prenom != "-" AND prenom != "" AND prenom NOT LIKE "- %" AND region != "ETR" AND region != "INT" ORDER BY id_ancien_si');
 	}
 
 	public static function findMembre($numeroMembre) {
 		self::initialize();
-		return DB::queryFirstRow('SELECT * FROM membres WHERE id_ancien_si = %i', $numeroMembre);
+		return DB::queryFirstRow('SELECT * FROM Membres WHERE id_ancien_si = %i', $numeroMembre);
 	}
 
 	public static function findMembreSystemId($numeroMembre) {
@@ -91,7 +91,7 @@ class Queries {
 	public static function updateMembre($numeroMembre, $data) {
 		self::initialize();
 		$data = self::filterMembreData($data);
-		DB::update('membres', $data, 'id_ancien_si = %i', $numeroMembre);
+		DB::update('Membres', $data, 'id_ancien_si = %i', $numeroMembre);
 	}
 
 	public static function createMembre($numeroMembre, $data) {
@@ -101,7 +101,7 @@ class Queries {
 
 		$data = self::filterMembreData($data);
 
-		DB::insert('membres', $data);
+		DB::insert('Membres', $data);
 	}
 
 	private static function filterMembreData($data) {
@@ -143,17 +143,17 @@ class Queries {
 
 	public static function listCotisations($membreSystemId) {
 		self::initialize();
-		return DB::query('SELECT * FROM cotisations WHERE id_membre = %i', $membreSystemId);
+		return DB::query('SELECT * FROM Cotisations WHERE id_membre = %i', $membreSystemId);
 	}
 
 	public static function createCotisation($data) {
 		self::initialize();
-		DB::insert('cotisations', $data);
+		DB::insert('Cotisations', $data);
 	}
 
 	public static function listCoordonnees($membreSystemId) {
 		self::initialize();
-		return DB::query('SELECT * FROM coordonnees WHERE id_membre = %i ORDER BY id_coordonnee DESC', $membreSystemId);
+		return DB::query('SELECT * FROM Coordonnees WHERE id_membre = %i ORDER BY id_coordonnee DESC', $membreSystemId);
 	}
 
 	public static function createCoordonees($membreId, $type, $value) {
@@ -167,7 +167,7 @@ class Queries {
 			'reservee_gestion_asso' => true,
 		];
 
-		DB::insert('coordonnees', $data);
+		DB::insert('Coordonnees', $data);
 	}
 
 	public static function createEmail($membreId, $email) {

@@ -54,7 +54,7 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 	if (($handle = fopen($_FILES[FILE_INPUT_NAME]['tmp_name'], "r")) !== FALSE) {
 		$labels = fgetcsv($handle,0,CSV_SEPARATOR,CSV_DELIMITER);
 
-		if ($labels && !array_diff( $labels , $EXPECTED_FIELDS )) {
+		if ($EXPECTED_FIELDS == $labels) {
 			$mappedImportRows = [];
 
 			while (($data = fgetcsv($handle,0,CSV_SEPARATOR,CSV_DELIMITER)) !== FALSE) {

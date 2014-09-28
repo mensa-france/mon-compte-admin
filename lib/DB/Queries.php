@@ -146,8 +146,11 @@ class Queries {
 		return DB::query('SELECT * FROM Cotisations WHERE id_membre = %i', $membreSystemId);
 	}
 
-	public static function createCotisation($data) {
+	public static function createCotisation($membreSystemId, $data) {
 		self::initialize();
+		$data['id_membre'] = $membreSystemId;
+		$data['region'] = strtoupper($data['region']);
+		$data['tarif'] = strtoupper($data['tarif']);
 		DB::insert('Cotisations', $data);
 	}
 

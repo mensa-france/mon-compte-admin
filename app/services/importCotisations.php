@@ -1,12 +1,11 @@
 <?php
 
-ini_set('memory_limit', '256M');
-
 require_once __DIR__.'/../../vendor/autoload.php';
 
-use MonCompte\Doctrine;
 use MonCompte\Logger;
+use MonCompte\Format;
 use MonCompte\StopWatch;
+use MonCompte\DB\Queries;
 
 $stopWatch = new StopWatch();
 $stopWatch->start();
@@ -46,6 +45,9 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 						$data[$index] = '';
 
 					$namedData[$label] = utf8_encode($data[$index]);
+
+					if (preg_match('/^date_/', $label))
+						$namedData[$label] = Format::filterStringDate($namedData[$label]);
 				}
 
 				$namedData['numero_membre'] = preg_replace('/^0+/','',$namedData['numero_membre']); // Remove leading 0s.
@@ -56,25 +58,28 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 				$mappedCotisations[$namedData['numero_membre']][] = $namedData;
 			}
 
-			$mappedMembres = [];
-
-			foreach (Doctrine::listMembres() as $membre)
-				$mappedMembres[$membre->getIdAncienSi()] = $membre;
-
-			$membreBuffer = [];
+			$existingMembres = Queries::mapNumerosMembresWithIds();
 
 			foreach ($mappedCotisations as $numeroMembre => $cotisationData) {
 				#$logger->debug('Processing member: '.$numeroMembre);
 
-				if (isset($mappedMembres[$numeroMembre])) {
-					$currentMembre = $mappedMembres[$numeroMembre];
-					$existingCotisations = $currentMembre->getCotisations();
+				if (isset($existingMembres[$numeroMembre])) {
+					$memberId = $existingMembres[$numeroMembre];
+
+					$existingCotisations = Queries::listCotisations($memberId);
 
 					$existingCotisationsByDate = [];
 					$newCotisationsByDate = [];
 
-					foreach ($existingCotisations as $cotisation)
-						$existingCotisationsByDate[$cotisation->getDateDebut()] = $cotisation;
+					foreach ($existingCotisations as $cotisation) {
+						foreach ($cotisation as $key => $value) {
+							// We need to remove the time from the date values.
+							if (preg_match('/^date_/', $key))
+								$cotisation[$key] = preg_replace('/ 00:00:00$/', '', $value);
+						}
+
+						$existingCotisationsByDate[$cotisation['date_debut']] = $cotisation;
+					}
 
 					foreach ($cotisationData as $cotisation)
 						$newCotisationsByDate[$cotisation['date_debut']] = $cotisation;
@@ -82,49 +87,28 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 					$nonMatchingDates = array_diff_key($newCotisationsByDate,$existingCotisationsByDate);
 
 					if ($nonMatchingDates) {
-						$modified = false;
-
 						foreach ($nonMatchingDates as $startDate => $cotisationData) {
 							if (isset($newCotisationsByDate[$startDate])) {
 								// then it's a new cotisation.
 
 								$logger->info("Creating cotisation for membre {$numeroMembre} starting {$startDate}.");
-								$currentMembre->addCotisation($cotisationData);
-								$modified = true;
+
+								unset($cotisationData['numero_membre']);
+								$cotisationData['montant'] = preg_replace('/,/', '.', $cotisationData['montant']);
+
+								Queries::createCotisation($memberId, $cotisationData);
 							} else {
 								// do nothing for now.
 								// should not really happen anyway.
-								$logger->error("Found deleted cotisation for membre: {$numeroMembre} starting {$startDate}.");
+								$logger->warn("Found deleted cotisation for membre: {$numeroMembre} starting {$startDate}.");
 							}
 						}
-
-						if ($modified) {
-							$logger->debug("Persisting membre: {$numeroMembre}");
-							Doctrine::persist($currentMembre);
-							$membreBuffer[] = $currentMembre; // Used to free memory.
-						}
-					} else {
-						// No modification to do, freeing entity.
-						//$membreBuffer[] = $currentMembre;
-
-						// Somehow detaching non modified entities generates an error.
-					}
-
-					if (count($membreBuffer) >= BATCH_SIZE) {
-						Doctrine::flush();
-
-						foreach ($membreBuffer as $entity)
-							Doctrine::detach($entity);
-
-						$membreBuffer = [];
 					}
 				} else {
 					$logger->error("Member not found: {$numeroMembre}");
 					$error[] = "Membre non trouvé: {$numeroMembre}";
 				}
 			}
-
-			Doctrine::flush();
 
 			$message = 'Completed';
 		} else {

@@ -71,7 +71,7 @@ class Queries {
 
 	public static function listMembres() {
 		self::initialize();
-		return DB::query('SELECT id_membre, id_ancien_si as numero_membre, nom, prenom, region FROM membres WHERE prenom != "--" AND prenom != "-" AND prenom != "" AND prenom NOT LIKE "- %" AND region != "ETR" ORDER BY id_ancien_si');
+		return DB::query('SELECT id_membre, id_ancien_si as numero_membre, nom, prenom, region FROM membres WHERE prenom != "Betâ" AND prenom != "--" AND prenom != "-" AND prenom != "" AND prenom NOT LIKE "- %" AND region != "ETR" AND region != "INT" ORDER BY id_ancien_si');
 	}
 
 	public static function findMembre($numeroMembre) {

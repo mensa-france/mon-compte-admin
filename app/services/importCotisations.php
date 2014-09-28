@@ -41,7 +41,7 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 					if (!isset($data[$index]))
 						$data[$index] = '';
 
-					$namedData[$label] = $data[$index];
+					$namedData[$label] = utf8_encode($data[$index]);
 				}
 
 				$namedData['numero_membre'] = preg_replace('/^0+/','',$namedData['numero_membre']); // Remove leading 0s.

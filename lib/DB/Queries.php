@@ -69,6 +69,11 @@ class Queries {
 		return $result;
 	}
 
+	public static function listMembres() {
+		self::initialize();
+		return DB::query('SELECT id_membre, id_ancien_si as numero_membre, nom, prenom, region FROM membres WHERE prenom != "--" AND prenom != "-" AND prenom != "" AND prenom NOT LIKE "- %" AND region != "ETR" ORDER BY id_ancien_si');
+	}
+
 	public static function findMembre($numeroMembre) {
 		self::initialize();
 		return DB::queryFirstRow('SELECT * FROM membres WHERE id_ancien_si = %i', $numeroMembre);
@@ -144,6 +149,11 @@ class Queries {
 	public static function createCotisation($data) {
 		self::initialize();
 		DB::insert('cotisations', $data);
+	}
+
+	public static function listCoordonnees($membreSystemId) {
+		self::initialize();
+		return DB::query('SELECT * FROM coordonnees WHERE id_membre = %i ORDER BY id_coordonnee DESC', $membreSystemId);
 	}
 
 	public static function createCoordonees($membreId, $type, $value) {

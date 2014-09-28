@@ -6,6 +6,10 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 use MonCompte\Doctrine;
 use MonCompte\Logger;
+use MonCompte\StopWatch;
+
+$stopWatch = new StopWatch();
+$stopWatch->start();
 
 define('FILE_INPUT_NAME','csv-import');
 define('CSV_SEPARATOR',"\t");
@@ -144,3 +148,5 @@ if (count($errors) > 0)
 	$response['errors'] = $errors;
 
 echo json_encode($response);
+
+$logger->debug('Import cotisations duration: '.$stopWatch->getElapsedTime().'s');

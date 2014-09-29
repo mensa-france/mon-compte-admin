@@ -12,7 +12,7 @@ define [
 
 	ACTIVE_CLASS = 'active'
 
-	class LayoutView extends Marionette.Layout
+	class LayoutView extends Marionette.LayoutView
 		template: hbsTemplate
 
 		regions:

@@ -6,7 +6,7 @@ define [
 	'views/importExport/importMembres'
 ],(Marionette, hbsTemplate, ExportCoordonneesView, ImportCotisationsView, ImportMembresView)->
 
-	class OperationsView extends Marionette.Layout
+	class OperationsView extends Marionette.LayoutView
 		className: 'operations'
 		template: hbsTemplate
 

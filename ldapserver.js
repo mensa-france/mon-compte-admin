@@ -24,8 +24,6 @@ var SUFFIX = BASE_DN;
 var db = {};
 var server = ldap.createServer();
 
-
-
 server.bind(ADMIN_USER_DN, function(req, res, next) {
 	if (req.dn.toString() !== ADMIN_USER_DN || req.credentials !== ADMIN_USER_PWD)
 		return next(new ldap.InvalidCredentialsError());
@@ -37,11 +35,14 @@ server.bind(ADMIN_USER_DN, function(req, res, next) {
 server.add(SUFFIX, authorize, function(req, res, next) {
 	var dn = req.dn.toString();
 
-	if (db[dn])
+	if (db[dn]) {
+		console.warn('Add request for existing entity:',req.dn.toString());
 		return next(new ldap.EntryAlreadyExistsError(dn));
+	}
 
 	db[dn] = req.toObject().attributes;
 	res.end();
+	console.log('Entity created:',req.dn,db[dn]);
 	return next();
 });
 
@@ -144,39 +145,40 @@ server.modify(SUFFIX, authorize, function(req, res, next) {
 
 server.search(SUFFIX, authorize, function(req, res, next) {
 	var dn = req.dn.toString();
+	console.log('Search request for:',dn);
 	if (!db[dn])
 		return next(new ldap.NoSuchObjectError(dn));
 
 	var scopeCheck;
 
 	switch (req.scope) {
-	case 'base':
-		if (req.filter.matches(db[dn])) {
-			res.send({
-				dn: dn,
-				attributes: db[dn]
-			});
-		}
+		case 'base':
+			if (req.filter.matches(db[dn])) {
+				res.send({
+					dn: dn,
+					attributes: db[dn]
+				});
+			}
 
-		res.end();
-		return next();
+			res.end();
+			return next();
 
-	case 'one':
-		scopeCheck = function(k) {
-			if (req.dn.equals(k))
-				return true;
+		case 'one':
+			scopeCheck = function(k) {
+				if (req.dn.equals(k))
+					return true;
 
-			var parent = ldap.parseDN(k).parent();
-			return (parent ? parent.equals(req.dn) : false);
-		};
-		break;
+				var parent = ldap.parseDN(k).parent();
+				return (parent ? parent.equals(req.dn) : false);
+			};
+			break;
 
-	case 'sub':
-		scopeCheck = function(k) {
-			return (req.dn.equals(k) || req.dn.parentOf(k));
-		};
+		case 'sub':
+			scopeCheck = function(k) {
+				return (req.dn.equals(k) || req.dn.parentOf(k));
+			};
 
-		break;
+			break;
 	}
 
 	Object.keys(db).forEach(function(key) {

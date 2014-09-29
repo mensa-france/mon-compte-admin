@@ -6,6 +6,7 @@ use MonCompte\Logger;
 use MonCompte\Arrays;
 use MonCompte\StopWatch;
 use MonCompte\Format;
+use MonCompte\OldLdapSync;
 use MonCompte\DB\Queries;
 
 $stopWatch = new StopWatch();
@@ -79,9 +80,6 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 			foreach ($mappedImportRows as $numeroMembre => $importData) {
 				#$logger->debug('Processing member: '.$numeroMembre);
 
-				$modifiedMembre = null;
-				$isNew = false;
-
 				if (isset($existingMembres[$numeroMembre])) {
 					Queries::updateMembre($numeroMembre, Arrays::filterKeys($importData, $MEMBRES_FIELDS));
 				} else {
@@ -102,6 +100,14 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 						Queries::createAddress($membreId, $importData['adresse1'], $importData['adresse2'], $importData['adresse3'], $importData['ville'], $importData['code_postal'], $importData['pays']);
 
 					Queries::commit();
+				}
+
+				$ldapResult = OldLdapSync::migrer_vers_LDAP($importData);
+
+				if ($ldapResult) {
+					// Then it's an error.
+					$errors[] = "Ldap error creating member #{$numeroMembre}: {$ldapResult}";
+					break; // Exit loop.
 				}
 			}
 

@@ -1,0 +1,44 @@
+<table class="table table-striped table-hover table-condensed">
+	<thead>
+		<tr>
+			<th>N°</th>
+			<th>Reg.</th>
+			<th>Civ.</th>
+			<th>Prénom</th>
+			<th>Nom</th>
+			<th>Date Nais.</th>
+			<th>Date Inscr.</th>
+			<th>Email</th>
+			<th>Tel.</th>
+			<th>Adr.1</th>
+			<th>Adr.2</th>
+			<th>Adr.3</th>
+			<th>Ville</th>
+			<th>CP</th>
+			<th>Pays</th>
+		</tr>
+	</thead>
+	<tbody>
+	{{#each membres}}
+		<tr>
+			<td>{{numero_membre}}</td>
+			<td>{{region}}</td>
+			<td>{{civilite}}</td>
+			<td>{{prenom}}</td>
+			<td>{{nom}}</td>
+			<td>{{date_naissance}}</td>
+			<td>{{date_inscription}}</td>
+			<td>{{email}}</td>
+			<td>{{telephone}}</td>
+			<td>{{adresse1}}</td>
+			<td>{{adresse2}}</td>
+			<td>{{adresse3}}</td>
+			<td>{{ville}}</td>
+			<td>{{code_postal}}</td>
+			<td>{{pays}}</td>
+		</tr>
+	{{/each}}
+	</tbody>
+</table>
+
+

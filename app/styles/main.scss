@@ -18,7 +18,11 @@ body {
 	}
 }
 
-.operations {
+.muted {
+	color: #ccc;
+}
+
+#mainRegion > .operations {
 	padding-top: 20px;
 	input.fileselector {
 		width: auto;
@@ -52,6 +56,19 @@ body {
 	}
 }
 
-.muted {
-	color: #ccc;
+#mainRegion > .membres {
+	text-align: center;
+
+	table {
+		background-color: white;
+		font-size: 0.7em;
+		margin: 0;
+	}
+
+	.spinner {
+		$side: 50px;
+		margin-top: 30px;
+		height: $side;
+		width: $side;
+	}
 }

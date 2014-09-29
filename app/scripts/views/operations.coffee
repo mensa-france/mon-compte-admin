@@ -1,13 +1,13 @@
 define [
 	'marionette'
-	'hbs!templates/importExport'
+	'hbs!templates/operations'
 	'views/importExport/exportCoordonnees'
 	'views/importExport/importCotisations'
 	'views/importExport/importMembres'
 ],(Marionette, hbsTemplate, ExportCoordonneesView, ImportCotisationsView, ImportMembresView)->
 
-	class ImportExportView extends Marionette.Layout
-		className: 'importExport'
+	class OperationsView extends Marionette.Layout
+		className: 'operations'
 		template: hbsTemplate
 
 		regions:

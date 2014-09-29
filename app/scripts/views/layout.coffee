@@ -1,8 +1,8 @@
 define [
 	'marionette'
 	'hbs!templates/layout'
-	'views/importExport'
-],(Marionette, hbsTemplate, ImportExportView)->
+	'views/operations'
+],(Marionette, hbsTemplate, OperationsView)->
 
 	class LayoutView extends Marionette.Layout
 		template: hbsTemplate
@@ -10,5 +10,8 @@ define [
 		regions:
 			mainRegion: '#mainRegion'
 
+		ui:
+			navitems: 'ul.navbar-nav li'
+
 		onRender: ->
-			@mainRegion.show new ImportExportView
+			@mainRegion.show new OperationsView

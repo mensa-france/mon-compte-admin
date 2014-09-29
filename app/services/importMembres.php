@@ -100,14 +100,14 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 						Queries::createAddress($membreId, $importData['adresse1'], $importData['adresse2'], $importData['adresse3'], $importData['ville'], $importData['code_postal'], $importData['pays']);
 
 					Queries::commit();
-				}
 
-				$ldapResult = OldLdapSync::migrer_vers_LDAP($importData);
+					$ldapResult = OldLdapSync::migrer_vers_LDAP($importData);
 
-				if ($ldapResult) {
-					// Then it's an error.
-					$errors[] = "Ldap error creating member #{$numeroMembre}: {$ldapResult}";
-					break; // Exit loop.
+					if ($ldapResult) {
+						// Then it's an error.
+						$errors[] = "Ldap error creating member #{$numeroMembre}: {$ldapResult}";
+						break; // Exit loop.
+					}
 				}
 			}
 

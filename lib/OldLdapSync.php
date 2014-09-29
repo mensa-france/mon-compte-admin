@@ -7,10 +7,13 @@ class OldLdapSync {
 
 	private static $conf;
 	private static $ldapHandle;
+	private static $isDisabled;
 
 	private static function loadConfiguration() {
 		$strCfg = file_get_contents(__DIR__.'/../config/local_ldap.json');
 		self::$conf = json_decode($strCfg, true);
+
+		self::$isDisabled = self::$conf['disabled'];
 
 		return self::$conf;
 	}
@@ -36,7 +39,9 @@ class OldLdapSync {
 		if (!self::$conf) {
 			self::$logger = Logger::getLogger('OldLdapSync');
 			self::loadConfiguration();
-			self::openLdapConnection(self::$conf['host'],self::$conf['port'],self::$conf['userdn'],self::$conf['password']);
+
+			if (!self::$isDisabled)
+				self::openLdapConnection(self::$conf['host'],self::$conf['port'],self::$conf['userdn'],self::$conf['password']);
 		}
 
 		return self::$ldapHandle;
@@ -44,6 +49,11 @@ class OldLdapSync {
 
 	public static function migrer_vers_LDAP($leMembre) {
 		$handle_ldap = self::initialize();
+
+		if (self::$isDisabled) {
+			self::$logger->info("Ldap is disabled, doing nothing.");
+			return false;
+		}
 
 		$membrePath = "cn=".$leMembre["numero_membre"].", ".self::$conf['basedn'];
 		$membreExists = @ldap_search($handle_ldap, $membrePath, "objectclass=*", ["cn"]);
@@ -91,6 +101,11 @@ class OldLdapSync {
 	static public function maj_statut_cotisant($numero_membre) {
 		$handle_ldap = self::initialize();
 
+		if (self::$isDisabled) {
+			self::$logger->info("Ldap is disabled, doing nothing.");
+			return false;
+		}
+
 		//$requeteListeDesMembres = "Select Membres.id_membre, id_ancien_si, UNIX_TIMESTAMP(MAX(Cotisations.date_fin)) As cotisation From Cotisations, Membres Where Membres.id_membre = Cotisations.id_membre Group By id_ancien_si Order By id_ancien_si Asc";
 
 		$membreExists = @ldap_search($handle_ldap, "cn={$numero_membre}, ".self::$conf['basedn'], "objectclass=*", array("cn", "description", "mail"));
@@ -121,7 +136,7 @@ class OldLdapSync {
 
 			$err = ldap_error($handle_ldap);
 			if($err != "Success")
-				return "Ldap error while updating membre #{$numero_membre} status: {$err}"
+				return "Ldap error while updating membre #{$numero_membre} status: {$err}";
 		} else {
 			return "Membre not found in ldap repo: #{$numero_membre}";
 		}

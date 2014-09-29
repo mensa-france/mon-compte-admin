@@ -38,12 +38,12 @@ class OldLdapSync {
 			self::loadConfiguration();
 			self::openLdapConnection(self::$conf['host'],self::$conf['port'],self::$conf['userdn'],self::$conf['password']);
 		}
+
+		return self::$ldapHandle;
 	}
 
 	public static function migrer_vers_LDAP($leMembre) {
-		self::initialize();
-
-		$handle_ldap = self::$ldapHandle;
+		$handle_ldap = self::initialize();
 
 		$membrePath = "cn=".$leMembre["numero_membre"].", ".self::$conf['basedn'];
 		$membreExists = @ldap_search($handle_ldap, $membrePath, "objectclass=*", ["cn"]);
@@ -86,5 +86,47 @@ class OldLdapSync {
 		}
 
 		return false;
+	}
+
+	static public function maj_statut_cotisant($numero_membre)
+	{
+		$handle_ldap = self::initialize();
+
+		//$requeteListeDesMembres = "Select Membres.id_membre, id_ancien_si, UNIX_TIMESTAMP(MAX(Cotisations.date_fin)) As cotisation From Cotisations, Membres Where Membres.id_membre = Cotisations.id_membre Group By id_ancien_si Order By id_ancien_si Asc";
+
+		$membreExists = @ldap_search($handle_ldap, "cn={$numero_membre}, ".self::$conf['basedn'], "objectclass=*", array("cn", "description", "mail"));
+
+		if($membreExists)
+		{
+			$personnes = ldap_get_entries($handle_ldap, $resultat);
+			$personne = $personnes[0];
+			$dn = $personne["dn"];
+
+			if(@is_array($personne["description"]))
+				$groupes = array_flip($personne["description"]);
+
+			else
+				$groupes = Null;
+
+			$est_membre = (time() < (int)$leMembre["cotisation"]);
+
+			if(isset($groupes["membre"]) And !$est_membre)
+			{
+				$e = array();
+				$e["description"][] = "membre";
+				ldap_mod_del($handle_ldap, $dn, $e);
+
+			} elseif($est_membre And !isset($groupes["membre"])) {
+				$e = array();
+				$e["description"][] = "membre";
+				ldap_mod_add($handle_ldap, $dn, $e);
+			}
+
+			$err = ldap_error($handle_ldap);
+			if($err != "Success")
+				return "Ldap error while updating membre #{$numero_membre} status: {$err}"
+		} else {
+			return "Membre not found in ldap repo: #{$numero_membre}";
+		}
 	}
 }

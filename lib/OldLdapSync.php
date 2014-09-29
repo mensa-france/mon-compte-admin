@@ -88,16 +88,14 @@ class OldLdapSync {
 		return false;
 	}
 
-	static public function maj_statut_cotisant($numero_membre)
-	{
+	static public function maj_statut_cotisant($numero_membre) {
 		$handle_ldap = self::initialize();
 
 		//$requeteListeDesMembres = "Select Membres.id_membre, id_ancien_si, UNIX_TIMESTAMP(MAX(Cotisations.date_fin)) As cotisation From Cotisations, Membres Where Membres.id_membre = Cotisations.id_membre Group By id_ancien_si Order By id_ancien_si Asc";
 
 		$membreExists = @ldap_search($handle_ldap, "cn={$numero_membre}, ".self::$conf['basedn'], "objectclass=*", array("cn", "description", "mail"));
 
-		if($membreExists)
-		{
+		if($membreExists) {
 			$personnes = ldap_get_entries($handle_ldap, $resultat);
 			$personne = $personnes[0];
 			$dn = $personne["dn"];
@@ -110,8 +108,7 @@ class OldLdapSync {
 
 			$est_membre = (time() < (int)$leMembre["cotisation"]);
 
-			if(isset($groupes["membre"]) And !$est_membre)
-			{
+			if(isset($groupes["membre"]) And !$est_membre) {
 				$e = array();
 				$e["description"][] = "membre";
 				ldap_mod_del($handle_ldap, $dn, $e);

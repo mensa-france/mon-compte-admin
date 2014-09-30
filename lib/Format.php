@@ -30,4 +30,17 @@ class Format {
 	public static function filterStringDate($stringDate) {
 		return preg_replace('/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/', '$3-$2-$1', $stringDate);
 	}
+
+	public static function serializeAddressValue($adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='') {
+		return json_encode([
+			'address' => trim("{$adresse1}\n{$adresse2}\n{$adresse3}"),
+			'city' => $ville,
+			'code' => $codePostal,
+			'country' => $pays,
+		]);
+	}
+
+	public static function serializeAddressValueFromArray($data) {
+		return self::serializeAddressValue($data['adresse1'], $data['adresse2'], $data['adresse3'], $data['ville'], $data['code_postal'], $data['pays']);
+	}
 }

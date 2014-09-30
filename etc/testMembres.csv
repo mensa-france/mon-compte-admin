@@ -1,3 +1,3 @@
 numero_membre	region	civilite	prenom	nom	date_naissance	date_inscription	email	telephone	adresse1	adresse2	adresse3	ville	code_postal	pays
-05116	ral	mr	Nicolàs	Leclèrc	24/04/1975	12/03/2001	dummy@example.com	dummy
-1000000000	idf	mr	Joé	Blàckç	17/06/1988	01/09/2005	joeblack@example.com		10 rue du squâre	chez tonton	à côté du puis	La-Ville-du-Bois	99000	France
+05116	ral	mr	Nicolàs	Leclèrc	24/04/1975	12/03/2001	dummy@example.com	01 02 03 04 05	21 Jump Streât			Paris	75009	France	
+1000000000	idf	mr	Joé	Blàckç	17/06/1988	01/09/2005	joeblack@example.com	10 20 30 40 50	10 rue du squâre	chez tonton	à côté du puis	La-Ville-du-Bois	99000	France

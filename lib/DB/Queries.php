@@ -159,6 +159,39 @@ class Queries {
 		return DB::query('SELECT * FROM Coordonnees WHERE id_membre = %i ORDER BY id_coordonnee DESC', $membreSystemId);
 	}
 
+	public static function mapCoordonnees() {
+		self::initialize();
+		$foundCoordonnees = DB::query('SELECT * FROM Coordonnees ORDER BY id_coordonnee DESC');
+
+		$result = [];
+
+		foreach ($foundCoordonnees as $coordonnee)
+			$result[$coordonnee['id_membre']] []= $coordonnee;
+
+		return $result;
+	}
+
+	public static function updateCoordonees($coordonneeId, $type, $value) {
+		self::initialize();
+		$data = [
+			'type_coordonnee' => $type,
+			'coordonnee' => $value,
+			'usage_coordonnee' => 'home',
+			'reservee_gestion_asso' => true,
+		];
+		DB::update('Coordonnees', $data, 'id_coordonnee = %i', $coordonneeId);
+	}
+
+	public static function deleteCoordonnees($coordonneeId) {
+		self::initialize();
+		DB::delete('Coordonnees', 'id_coordonnee = %i', $coordonneeId);
+	}
+
+	public static function deleteCoordonneesMembre($membreId) {
+		self::initialize();
+		DB::delete('Coordonnees', 'id_membre = %i', $membreId);
+	}
+
 	public static function createCoordonees($membreId, $type, $value) {
 		self::initialize();
 

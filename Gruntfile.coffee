@@ -293,23 +293,14 @@ module.exports = (grunt)->
 				,
 					expand: true
 					dot: true
-					cwd: 'vendor'
-					dest: '<%= yeoman.dist %>/vendor'
-					src: '**/*'
-				,
-					expand: true
-					dot: true
-					cwd: 'lib'
-					dest: '<%= yeoman.dist %>/lib'
-					src: '**/*'
-				,
-					expand: true
-					dot: true
-					cwd: 'config'
-					dest: '<%= yeoman.dist %>/config'
+					cwd: '.'
+					dest: '<%= yeoman.dist %>'
 					src: [
-						'*.dist'
-						'!auth-user.json.dist'
+						'bin/**'
+						'vendor/**'
+						'lib/**'
+						'config/*.dist'
+						'!config/auth-user.json.dist'
 					]
 				]
 

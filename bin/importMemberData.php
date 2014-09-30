@@ -84,6 +84,8 @@ if (($handle = fopen($filePath, "r")) !== FALSE) {
 			if (($processedCount%100) == 0)
 				echo '.';
 
+			$isCreate = false;
+
 			Queries::startTransaction();
 
 			$membreId = null;
@@ -94,6 +96,7 @@ if (($handle = fopen($filePath, "r")) !== FALSE) {
 			} else {
 				Queries::createMembre($numeroMembre, Arrays::filterKeys($importData, $MEMBRES_FIELDS));
 				$membreId = Queries::findMembreSystemId($numeroMembre);
+				$isCreate = true;
 			}
 
 			Queries::deleteCoordonneesMembre($membreId); // Delete all of them to remove multiple values for same type.
@@ -108,6 +111,15 @@ if (($handle = fopen($filePath, "r")) !== FALSE) {
 				Queries::createAddress($membreId, $importData['adresse1'], $importData['adresse2'], $importData['adresse3'], $importData['ville'], $importData['code_postal'], $importData['pays']);
 
 			Queries::commit();
+
+			if ($isCreate) {
+				$ldapResult = OldLdapSync::migrer_vers_LDAP($importData);
+
+				if ($ldapResult)
+					// Then it's an error.
+					die("Ldap error creating member #{$numeroMembre}: {$ldapResult}");
+			}
+
 			$processedCount++;
 		}
 

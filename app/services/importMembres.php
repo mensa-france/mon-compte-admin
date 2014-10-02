@@ -6,7 +6,7 @@ use MonCompte\Logger;
 use MonCompte\Arrays;
 use MonCompte\StopWatch;
 use MonCompte\Format;
-use MonCompte\OldLdapSync;
+use MonCompte\LdapSync;
 use MonCompte\DB\Queries;
 
 $stopWatch = new StopWatch();
@@ -101,7 +101,7 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 
 					Queries::commit();
 
-					$ldapResult = OldLdapSync::migrer_vers_LDAP($importData);
+					$ldapResult = LdapSync::migrer_vers_LDAP($importData);
 
 					if ($ldapResult) {
 						// Then it's an error.

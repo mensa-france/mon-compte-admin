@@ -5,7 +5,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 use MonCompte\Arrays;
 use MonCompte\StopWatch;
 use MonCompte\Format;
-use MonCompte\OldLdapSync;
+use MonCompte\LdapSync;
 use MonCompte\DB\Queries;
 
 $stopWatch = new StopWatch();
@@ -113,7 +113,7 @@ if (($handle = fopen($filePath, "r")) !== FALSE) {
 			Queries::commit();
 
 			if ($isCreate) {
-				$ldapResult = OldLdapSync::migrer_vers_LDAP($importData);
+				$ldapResult = LdapSync::migrer_vers_LDAP($importData);
 
 				if ($ldapResult)
 					// Then it's an error.

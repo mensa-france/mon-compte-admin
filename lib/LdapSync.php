@@ -2,7 +2,7 @@
 
 namespace MonCompte;
 
-class OldLdapSync {
+class LdapSync {
 	private static $logger;
 
 	private static $conf;
@@ -36,7 +36,7 @@ class OldLdapSync {
 
 	private static function initialize() {
 		if (!self::$conf) {
-			self::$logger = Logger::getLogger('OldLdapSync');
+			self::$logger = Logger::getLogger('LdapSync');
 			self::loadConfiguration();
 
 			if (!self::$isDisabled)

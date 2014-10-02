@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use MonCompte\OldLdapSync;
+use MonCompte\LdapSync;
 
 
 $membre = [
@@ -12,6 +12,6 @@ $membre = [
 	'email' => 'joeblack@example.com',
 ];
 
-$result = OldLdapSync::migrer_vers_LDAP($membre);
+$result = LdapSync::migrer_vers_LDAP($membre);
 
 echo ">>>> ".$result."\n";

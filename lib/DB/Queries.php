@@ -69,6 +69,16 @@ class Queries {
 		return $result;
 	}
 
+	public static function mapNumerosMembresWithCotisationExpirationTimestamps() {
+		$list = DB::query('SELECT id_ancien_si, IFNULL(UNIX_TIMESTAMP(MAX(Cotisations.date_fin)),0) AS cotisation FROM Cotisations, Membres WHERE Membres.id_membre = Cotisations.id_membre GROUP BY id_ancien_si ORDER BY id_ancien_si ASC');
+		$result = [];
+
+		foreach ($list as $row)
+			$result[$row['id_ancien_si']] = $row['cotisation'];
+
+		return $result;
+	}
+
 	public static function listMembres() {
 		self::initialize();
 		return DB::query('SELECT id_membre, id_ancien_si as numero_membre, nom, prenom, region, date_naissance, date_inscription, civilite FROM Membres WHERE prenom != "Betâ" AND prenom != "--" AND prenom != "-" AND prenom != "" AND prenom NOT LIKE "- %" AND region != "ETR" AND region != "INT" ORDER BY id_ancien_si');

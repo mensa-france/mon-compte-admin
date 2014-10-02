@@ -6,6 +6,7 @@ use MonCompte\Logger;
 use MonCompte\Format;
 use MonCompte\StopWatch;
 use MonCompte\DB\Queries;
+use MonCompte\LdapSync;
 
 $stopWatch = new StopWatch();
 $stopWatch->start();
@@ -61,8 +62,6 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 			$existingMembres = Queries::mapNumerosMembresWithIds();
 
 			foreach ($mappedCotisations as $numeroMembre => $cotisationData) {
-				#$logger->debug('Processing member: '.$numeroMembre);
-
 				if (isset($existingMembres[$numeroMembre])) {
 					$memberId = $existingMembres[$numeroMembre];
 
@@ -87,22 +86,43 @@ if (isset($_FILES[FILE_INPUT_NAME]) && $_FILES[FILE_INPUT_NAME]['tmp_name']) {
 					$nonMatchingDates = array_diff_key($newCotisationsByDate,$existingCotisationsByDate);
 
 					if ($nonMatchingDates) {
-						foreach ($nonMatchingDates as $startDate => $cotisationData) {
+						Queries::startTransaction();
+						foreach ($nonMatchingDates as $startDate => $cotisation) {
 							if (isset($newCotisationsByDate[$startDate])) {
 								// then it's a new cotisation.
 
 								$logger->info("Creating cotisation for membre {$numeroMembre} starting {$startDate}.");
 
-								unset($cotisationData['numero_membre']);
-								$cotisationData['montant'] = preg_replace('/,/', '.', $cotisationData['montant']);
+								unset($cotisation['numero_membre']);
+								$cotisation['montant'] = preg_replace('/,/', '.', $cotisation['montant']);
 
-								Queries::createCotisation($memberId, $cotisationData);
+								Queries::createCotisation($memberId, $cotisation);
 							} else {
 								// do nothing for now.
 								// should not really happen anyway.
 								$logger->warn("Found deleted cotisation for membre: {$numeroMembre} starting {$startDate}.");
 							}
 						}
+						Queries::commit();
+					}
+
+					$currentCotisationExpirationDate = '0000-00-00'; // Take no chance with default value.
+
+					foreach ($existingCotisations as $cotisation)
+						if ($cotisation['date_fin'] > $currentCotisationExpirationDate)
+							$currentCotisationExpirationDate = $cotisation['date_fin'];
+
+					foreach ($cotisationData as $cotisation) {
+						if ($cotisation['date_fin'] > $currentCotisationExpirationDate)
+							$currentCotisationExpirationDate = $cotisation['date_fin'];
+					}
+
+					$ldapResult = LdapSync::maj_statut_cotisant($numeroMembre, strtotime($currentCotisationExpirationDate));
+
+					if ($ldapResult) {
+						// Then it's an error.
+						$errors[] = "Ldap error updating status for #{$numeroMembre}: {$ldapResult}";
+						break; // Exit loop.
 					}
 				} else {
 					$logger->error("Member not found: {$numeroMembre}");

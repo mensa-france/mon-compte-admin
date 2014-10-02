@@ -80,11 +80,6 @@ class LdapSync {
 			else
 				$email = $leMembre["email"];
 
-			/*
-			if(time() < (int)$leMembre["cotisation"])
-				array_push($membre_ldap["description"], "membre");
-			*/
-
 			$reussi = @ldap_add($handle_ldap, $membrePath, $membre_ldap);
 
 			if (!$reussi)
@@ -97,7 +92,7 @@ class LdapSync {
 		return false;
 	}
 
-	static public function maj_statut_cotisant($numero_membre) {
+	static public function maj_statut_cotisant($numero_membre, $cotisationExpirationTimestamp) {
 		$handle_ldap = self::initialize();
 
 		if (self::$isDisabled) {
@@ -105,29 +100,29 @@ class LdapSync {
 			return false;
 		}
 
-		//$requeteListeDesMembres = "Select Membres.id_membre, id_ancien_si, UNIX_TIMESTAMP(MAX(Cotisations.date_fin)) As cotisation From Cotisations, Membres Where Membres.id_membre = Cotisations.id_membre Group By id_ancien_si Order By id_ancien_si Asc";
-
 		$membreExists = @ldap_search($handle_ldap, "cn={$numero_membre}, ".self::$conf['basedn'], "objectclass=*", array("cn", "description", "mail"));
 
 		if($membreExists) {
-			$personnes = ldap_get_entries($handle_ldap, $resultat);
+			$personnes = ldap_get_entries($handle_ldap, $membreExists);
 			$personne = $personnes[0];
 			$dn = $personne["dn"];
 
+			//print_r($personne);
+
 			if(@is_array($personne["description"]))
 				$groupes = array_flip($personne["description"]);
-
 			else
 				$groupes = Null;
 
-			$est_membre = (time() < (int)$leMembre["cotisation"]);
+			$est_membre = (time() < intval($cotisationExpirationTimestamp));
 
 			if(isset($groupes["membre"]) And !$est_membre) {
+				self::$logger->debug("Removing membership for #{$numero_membre}.");
 				$e = array();
 				$e["description"][] = "membre";
 				ldap_mod_del($handle_ldap, $dn, $e);
-
 			} elseif($est_membre And !isset($groupes["membre"])) {
+				self::$logger->debug("Adding membership for #{$numero_membre}.");
 				$e = array();
 				$e["description"][] = "membre";
 				ldap_mod_add($handle_ldap, $dn, $e);

@@ -1,0 +1,13 @@
+<div class="panel-heading">
+	<h3 class="panel-title">Mise à jour du statut des cotisations</h3>
+</div>
+<div class="panel-body">
+	<form class="importForm" method="POST" target="updateStatusTarget" action="services/updateMembresStatus.php">
+		<button type="submit" class="btn btn-danger import">Mettre à jour les statuts</button>
+		<div class="waitIndicator"></div>
+	</form>
+
+	<iframe name="updateStatusTarget"></iframe>
+
+	<div class="messageZone"></div>
+</div>

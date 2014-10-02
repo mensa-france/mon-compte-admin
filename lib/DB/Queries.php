@@ -70,6 +70,7 @@ class Queries {
 	}
 
 	public static function mapNumerosMembresWithCotisationExpirationTimestamps() {
+		self::initialize();
 		$list = DB::query('SELECT id_ancien_si, IFNULL(UNIX_TIMESTAMP(MAX(Cotisations.date_fin)),0) AS cotisation FROM Cotisations, Membres WHERE Membres.id_membre = Cotisations.id_membre GROUP BY id_ancien_si ORDER BY id_ancien_si ASC');
 		$result = [];
 

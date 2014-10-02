@@ -107,25 +107,27 @@ class LdapSync {
 			$personne = $personnes[0];
 			$dn = $personne["dn"];
 
-			//print_r($personne);
-
 			if(@is_array($personne["description"]))
 				$groupes = array_flip($personne["description"]);
 			else
 				$groupes = Null;
 
-			$est_membre = (time() < intval($cotisationExpirationTimestamp));
+			$currentTime = time();
+			$est_membre = ($currentTime < $cotisationExpirationTimestamp);
+			//self::$logger->debug(">>>> #{$numero_membre} : {$currentTime} < {$cotisationExpirationTimestamp}");
 
-			if(isset($groupes["membre"]) And !$est_membre) {
+			if (isset($groupes["membre"]) && !$est_membre) {
 				self::$logger->debug("Removing membership for #{$numero_membre}.");
 				$e = array();
 				$e["description"][] = "membre";
 				ldap_mod_del($handle_ldap, $dn, $e);
-			} elseif($est_membre And !isset($groupes["membre"])) {
+			} elseif (!isset($groupes["membre"]) && $est_membre) {
 				self::$logger->debug("Adding membership for #{$numero_membre}.");
 				$e = array();
 				$e["description"][] = "membre";
 				ldap_mod_add($handle_ldap, $dn, $e);
+			} else {
+				self::$logger->debug("No status change for #{$numero_membre}.");
 			}
 
 			$err = ldap_error($handle_ldap);

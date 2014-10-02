@@ -11,7 +11,7 @@ $stopWatch->start();
 
 header("Content-type: application/json; charset=utf-8'");
 
-$logger = Logger::getLogger('services/exportCoordonnees');
+$logger = Logger::getLogger('services/listeMembre');
 
 $membres = Queries::listMembres();
 $logger->info('Found membres count: '.count($membres));

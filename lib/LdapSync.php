@@ -12,8 +12,7 @@ class LdapSync {
 	private static function loadConfiguration() {
 		$strCfg = file_get_contents(__DIR__.'/../config/local_ldap.json');
 		self::$conf = json_decode($strCfg, true);
-		self::$isDisabled = strtolower(self::$conf['disabled']) == 'true'; // Must test against string
-
+		self::$isDisabled = self::$conf['disabled'] === true;
 		return self::$conf;
 	}
 

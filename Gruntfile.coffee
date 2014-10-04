@@ -1,5 +1,5 @@
 # Generated on 2013-08-07 using generator-webapp 0.2.7
-LIVERELOAD_PORT = 35729
+LIVERELOAD_PORT = 35730
 lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT})
 gateway = require 'gateway'
 fs = require 'fs'
@@ -69,7 +69,7 @@ module.exports = (grunt)->
 
 		connect:
 			options:
-				port: 9000
+				port: 9001
 				# change this to '0.0.0.0' to access the server from outside
 				#hostname: 'localhost'
 				hostname: '0.0.0.0'

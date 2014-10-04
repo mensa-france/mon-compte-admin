@@ -128,7 +128,7 @@ if (($handle = fopen($filePath, "r")) !== FALSE) {
 
 				if ($ldapResult)
 					// Then it's an error.
-					die("Ldap error creating member #{$numeroMembre}: {$ldapResult}");
+					die("\nLdap error creating member #{$numeroMembre}: {$ldapResult}\n");
 			}
 
 			$processedCount++;

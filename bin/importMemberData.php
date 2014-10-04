@@ -97,10 +97,17 @@ if (($handle = fopen($filePath, "r")) !== FALSE) {
 
 			$membreId = null;
 
+			if (!$importData['prenom'])
+				$importData['prenom'] = '-';
+
+			if (!$importData['nom'])
+				$importData['nom'] = '-';
+
 			if (isset($existingMembres[$numeroMembre])) {
 				Queries::updateMembre($numeroMembre, Arrays::filterKeys($importData, $MEMBRES_FIELDS));
 				$membreId = $existingMembres[$numeroMembre];
 			} else {
+				echo "!";
 				Queries::createMembre($numeroMembre, Arrays::filterKeys($importData, $MEMBRES_FIELDS));
 				$membreId = Queries::findMembreSystemId($numeroMembre);
 				$isCreate = true;

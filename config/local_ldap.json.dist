@@ -1,10 +1,10 @@
 
 {
 	"host": "localhost",
-	"port": 1389,
-	"userdn": "cn=root",
-	"password": "secret",
-	"basedn": "ou=people, dc=mensa-france, dc=org",
+	"port": 389,
+	"userdn": "",
+	"password": "",
+	"basedn": "",
 	"defaultEmail": "",
-	"disabled": false
+	"disabled": true
 }

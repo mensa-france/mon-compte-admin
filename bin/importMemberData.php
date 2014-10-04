@@ -28,8 +28,8 @@ $EXPECTED_FIELDS = [
 	'numero_membre',
 	'region',
 	'civilite',
-	'prenom',
 	'nom',
+	'prenom',
 	'date_naissance',
 	'date_inscription',
 	'email',
@@ -40,6 +40,9 @@ $EXPECTED_FIELDS = [
 	'ville',
 	'code_postal',
 	'pays',
+	'email_conf',
+	'tel_conf',
+	'adresse_conf',
 ];
 
 $MEMBRES_FIELDS = [
@@ -50,6 +53,10 @@ $MEMBRES_FIELDS = [
 	'date_naissance',
 	'date_inscription',
 ];
+
+function isTrue($value) {
+	return $value == 'VRAI';
+}
 
 if (($handle = fopen($filePath, "r")) !== FALSE) {
 	$labels = fgetcsv($handle,0,CSV_SEPARATOR,CSV_DELIMITER);
@@ -63,7 +70,7 @@ if (($handle = fopen($filePath, "r")) !== FALSE) {
 				if (!isset($data[$index]))
 					$data[$index] = '';
 
-				$namedData[$label] = utf8_encode($data[$index]);
+				$namedData[$label] = utf8_encode(trim($data[$index]));
 			}
 
 			$namedData['numero_membre'] = preg_replace('/^0+/','',$namedData['numero_membre']); // Remove leading 0s.
@@ -102,13 +109,17 @@ if (($handle = fopen($filePath, "r")) !== FALSE) {
 			Queries::deleteCoordonneesMembre($membreId); // Delete all of them to remove multiple values for same type.
 
 			if ($importData['email'])
-				Queries::createEmail($membreId, $importData['email']);
+				Queries::createEmail($membreId, $importData['email'], isTrue($importData['email_conf']));
 
 			if ($importData['telephone'])
-				Queries::createPhone($membreId, $importData['telephone']);
+				Queries::createPhone($membreId, $importData['telephone'], isTrue($importData['tel_conf']));
 
-			if ($importData['ville'])
-				Queries::createAddress($membreId, $importData['adresse1'], $importData['adresse2'], $importData['adresse3'], $importData['ville'], $importData['code_postal'], $importData['pays']);
+			if ($importData['ville']) {
+				if (!$importData['pays'])
+					$importData['pays'] = 'FRANCE';
+
+				Queries::createAddress($membreId, $importData['adresse1'], $importData['adresse2'], $importData['adresse3'], $importData['ville'], $importData['code_postal'], $importData['pays'], isTrue($importData['adresse_conf']));
+			}
 
 			Queries::commit();
 

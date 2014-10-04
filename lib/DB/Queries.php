@@ -203,7 +203,7 @@ class Queries {
 		DB::delete('Coordonnees', 'id_membre = %i', $membreId);
 	}
 
-	public static function createCoordonees($membreId, $type, $value) {
+	public static function createCoordonees($membreId, $type, $value, $isConfidential=true) {
 		self::initialize();
 
 		$data = [
@@ -211,21 +211,21 @@ class Queries {
 			'type_coordonnee' => $type,
 			'coordonnee' => $value,
 			'usage_coordonnee' => 'home',
-			'reservee_gestion_asso' => true,
+			'reservee_gestion_asso' => $isConfidential,
 		];
 
 		DB::insert('Coordonnees', $data);
 	}
 
-	public static function createEmail($membreId, $email) {
-		self::createCoordonees($membreId, 'email', $email);
+	public static function createEmail($membreId, $email, $isConfidential) {
+		self::createCoordonees($membreId, 'email', $email, $isConfidential);
 	}
 
-	public static function createPhone($membreId, $phone) {
-		self::createCoordonees($membreId, 'phone', $phone);
+	public static function createPhone($membreId, $phone, $isConfidential) {
+		self::createCoordonees($membreId, 'phone', $phone, $isConfidential);
 	}
 
-	public static function createAddress($membreId, $adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='') {
+	public static function createAddress($membreId, $adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='', $isConfidential) {
 		$value = json_encode([
 			'address' => trim("{$adresse1}\n{$adresse2}\n{$adresse3}"),
 			'city' => $ville,
@@ -233,6 +233,6 @@ class Queries {
 			'country' => $pays,
 		]);
 
-		self::createCoordonees($membreId, 'address', $value);
+		self::createCoordonees($membreId, 'address', $value, $isConfidential);
 	}
 }

@@ -85,6 +85,30 @@ class Queries {
 		return DB::query('SELECT id_membre, id_ancien_si as numero_membre, nom, prenom, region, date_naissance, date_inscription, civilite FROM Membres WHERE prenom != "Betâ" AND prenom != "--" AND prenom != "-" AND prenom != "" AND prenom NOT LIKE "- %" ORDER BY id_ancien_si');
 	}
 
+	public static function listMembresForLdap() {
+		self::initialize();
+		return DB::query(<<<EOT
+			SELECT
+				id_ancien_si AS numero_membre,
+				prenom,
+				nom,
+				Coordonnees.coordonnee AS email
+			FROM
+				Membres
+			LEFT JOIN Coordonnees ON Membres.id_membre = Coordonnees.id_membre
+			WHERE
+				(Coordonnees.type_coordonnee IS NULL OR Coordonnees.type_coordonnee = 'email') AND
+				prenom != '--' AND
+				prenom != '-' AND
+				prenom != 'X' AND
+				prenom != '' AND
+				prenom NOT LIKE '- %'
+			ORDER BY
+				id_ancien_si
+EOT
+		);
+	}
+
 	public static function findMembre($numeroMembre) {
 		self::initialize();
 		return DB::queryFirstRow('SELECT * FROM Membres WHERE id_ancien_si = %i', $numeroMembre);

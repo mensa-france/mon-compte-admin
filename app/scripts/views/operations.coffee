@@ -5,7 +5,8 @@ define [
 	'views/importExport/importCotisations'
 	'views/importExport/importMembres'
 	'views/importExport/updateStatus'
-],(Marionette, hbsTemplate, ExportCoordonneesView, ImportCotisationsView, ImportMembresView, UpdateStatusView)->
+	'views/importExport/updateLdap'
+],(Marionette, hbsTemplate, ExportCoordonneesView, ImportCotisationsView, ImportMembresView, UpdateStatusView, UpdateLdapView)->
 
 	class OperationsView extends Marionette.LayoutView
 		className: 'operations'
@@ -16,9 +17,11 @@ define [
 			region2: '.region2'
 			region3: '.region3'
 			region4: '.region4'
+			region5: '.region5'
 
 		onRender: ->
 			@region1.show new ExportCoordonneesView
 			@region2.show new ImportMembresView
 			@region3.show new ImportCotisationsView
 			@region4.show new UpdateStatusView
+			@region5.show new UpdateLdapView

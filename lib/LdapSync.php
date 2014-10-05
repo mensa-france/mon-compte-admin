@@ -136,4 +136,53 @@ class LdapSync {
 			return "Membre not found in ldap repo: #{$numero_membre}";
 		}
 	}
-}
+
+	public static function updateOrCreateProfile($numero_membre, $data) {
+		$handle_ldap = self::initialize();
+
+		if (self::$isDisabled) {
+			self::$logger->info("Ldap is disabled, doing nothing.");
+			return false;
+		}
+
+		$membreExists = @ldap_search($handle_ldap, "cn={$numero_membre}, ".self::$conf['basedn'], "objectclass=*", array("cn", "description", "mail"));
+
+		if($membreExists) {
+			$personnes = ldap_get_entries($handle_ldap, $membreExists);
+			$personne = $personnes[0];
+			$dn = $personne["dn"];
+
+			//self::$logger->debug(print_r($personne, true));
+
+			$newEmail = self::$conf['defaultEmail'];
+
+			if (isset($data['email']) && $data['email'])
+				$newEmail = $data['email'];
+
+			$hasLdapEmail = @is_array($personne["mail"]);
+
+			$ldapData = [
+				'mail' => [$newEmail]
+			];
+
+			if($hasLdapEmail) {
+				self::$logger->info("Replacing ldap email for #{$numero_membre}: {$newEmail}");
+				@ldap_mod_replace($handle_ldap, $dn, $ldapData);
+			} else {
+				self::$logger->info("Adding ldap email for #{$numero_membre}: {$newEmail}");
+				@ldap_mod_add($handle_ldap, $dn, $ldapData);
+			}
+
+			self::$logger->info("Replacing ldap first and last names for #{$numero_membre}.");
+			@ldap_mod_replace($handle_ldap, $dn, [
+				"sn"		=> $data["nom"],
+				"givenName"	=> $data["prenom"],
+			]);
+
+			$err = ldap_error($handle_ldap);
+			if($err != "Success")
+				return $err;
+		} else {
+			return self::migrer_vers_LDAP($data);
+		}
+	}}

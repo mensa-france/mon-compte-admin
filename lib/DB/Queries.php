@@ -241,15 +241,15 @@ EOT
 		DB::insert('Coordonnees', $data);
 	}
 
-	public static function createEmail($membreId, $email, $isConfidential) {
+	public static function createEmail($membreId, $email, $isConfidential=true) {
 		self::createCoordonees($membreId, 'email', $email, $isConfidential);
 	}
 
-	public static function createPhone($membreId, $phone, $isConfidential) {
+	public static function createPhone($membreId, $phone, $isConfidential=true) {
 		self::createCoordonees($membreId, 'phone', $phone, $isConfidential);
 	}
 
-	public static function createAddress($membreId, $adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='', $isConfidential) {
+	public static function createAddress($membreId, $adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='', $isConfidential=true) {
 		$value = json_encode([
 			'address' => trim("{$adresse1}\n{$adresse2}\n{$adresse3}"),
 			'city' => $ville,

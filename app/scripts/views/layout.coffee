@@ -2,15 +2,10 @@ define [
 	'jquery'
 	'marionette'
 	'hbs!templates/layout'
-	'views/operations'
-	'views/membres'
-],($, Marionette, hbsTemplate, OperationsView, MembresView)->
-
-	VIEW_MAPPING =
-		'#': OperationsView
-		'#membres': MembresView
+],($, Marionette, hbsTemplate)->
 
 	ACTIVE_CLASS = 'active'
+	NAVID_ATTRIBUTE = 'navid'
 
 	class LayoutView extends Marionette.LayoutView
 		template: hbsTemplate
@@ -20,25 +15,17 @@ define [
 
 		ui:
 			navItems: 'ul.navbar-nav li'
-			navItemLinks: 'ul.navbar-nav li a'
 
-		initialize: ->
-			window.addEventListener "hashchange", @_handleHash, false
+		show: (navId, view)->
+			if not @$el?
+				@once 'render', =>
+					@show navId, view
+			else
+				@mainRegion.show view
 
-		_handleHash: =>
-			hash = location.hash
-			hash = '#' if hash is ''
-
-			viewType = VIEW_MAPPING[hash] ?= VIEW_MAPPING['#']
-
-			@ui.navItems.removeClass ACTIVE_CLASS
-
-			@mainRegion.show new viewType
-
-			@ui.navItemLinks.each (index, item)->
-				$item = $(item)
-				if $item.attr('href') is hash
-					$item.parent().addClass ACTIVE_CLASS
-
-		onRender: ->
-			@_handleHash()
+				@ui.navItems.each (index, item)->
+					$item = $(item)
+					if $item.data(NAVID_ATTRIBUTE) is navId
+						$item.addClass ACTIVE_CLASS
+					else
+						$item.removeClass ACTIVE_CLASS

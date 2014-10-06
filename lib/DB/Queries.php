@@ -85,6 +85,12 @@ class Queries {
 		return DB::query('SELECT id_membre, id_ancien_si as numero_membre, nom, prenom, region, date_naissance, date_inscription, civilite FROM Membres WHERE prenom != "Betâ" AND prenom != "--" AND prenom != "-" AND prenom != "" AND prenom NOT LIKE "- %" ORDER BY id_ancien_si');
 	}
 
+
+	public static function listMembresWithAddress() {
+		self::initialize();
+		return DB::query('SELECT m.id_membre, id_ancien_si AS numero_membre, coordonnee AS adresse FROM Membres m, Coordonnees c WHERE m.id_membre = c.id_membre AND c.type_coordonnee = "address" ORDER BY id_ancien_si');
+	}
+
 	public static function listMembresForLdap() {
 		self::initialize();
 		return DB::query(<<<EOT
@@ -206,17 +212,6 @@ EOT
 		return $result;
 	}
 
-	public static function updateCoordonees($coordonneeId, $type, $value) {
-		self::initialize();
-		$data = [
-			'type_coordonnee' => $type,
-			'coordonnee' => $value,
-			'usage_coordonnee' => 'home',
-			'reservee_gestion_asso' => true,
-		];
-		DB::update('Coordonnees', $data, 'id_coordonnee = %i', $coordonneeId);
-	}
-
 	public static function deleteCoordonnees($coordonneeId) {
 		self::initialize();
 		DB::delete('Coordonnees', 'id_coordonnee = %i', $coordonneeId);
@@ -239,6 +234,17 @@ EOT
 		];
 
 		DB::insert('Coordonnees', $data);
+	}
+
+
+	public static function updateCoordonnee($membreId, $type, $value) {
+		self::initialize();
+
+		$data = [
+			'coordonnee' => $value,
+		];
+
+		DB::update('Coordonnees', $data, 'id_membre = %s AND type_coordonnee = %s', $membreId, $type);
 	}
 
 	public static function createEmail($membreId, $email, $isConfidential=true) {

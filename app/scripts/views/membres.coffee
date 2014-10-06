@@ -26,15 +26,19 @@ define [
 			mainRegion: '.mainRegion'
 
 		initialize: ->
-			#console.log '>>>>>',@options
-			{pageSize, pageIndex} = @options
+			@update @options
+
+		update: (options)=>
+			#console.log '>>>>>',options
+			{pageSize, pageIndex} = options
 
 			$.ajax
 				url: 'services/listeMembres.php'
-				data: @options
+				data: options
 				success: @_handleListeMembres
 
 			@collection = new Backbone.Collection
+
 
 		_handleListeMembres: (data)=>
 			#console.debug 'Received data:',data

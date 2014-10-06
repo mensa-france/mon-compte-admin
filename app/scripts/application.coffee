@@ -46,9 +46,16 @@ define [
 		else if not pageIndex or pageIndex < 1
 			router.navigate "membres/#{pageSize}/1", trigger:true unless pageIndex
 		else
-			layout.show 'membres', new MembresView
-				pageSize: pageSize
-				pageIndex: pageIndex
+			currentView = layout.getCurrentView()
+
+			if currentView instanceof MembresView
+				currentView.update
+					pageSize: pageSize
+					pageIndex: pageIndex
+			else
+				layout.show 'membres', new MembresView
+					pageSize: pageSize
+					pageIndex: pageIndex
 
 	app.redirectToDefault = ->
 		router.navigate '', trigger:true # goes to default view.

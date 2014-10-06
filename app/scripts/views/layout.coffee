@@ -22,6 +22,7 @@ define [
 					@show navId, view
 			else
 				@mainRegion.show view
+				@currentView = view
 
 				@ui.navItems.each (index, item)->
 					$item = $(item)
@@ -29,3 +30,6 @@ define [
 						$item.addClass ACTIVE_CLASS
 					else
 						$item.removeClass ACTIVE_CLASS
+
+		getCurrentView: ->
+			@currentView

@@ -24,6 +24,20 @@ body {
 
 #mainRegion > .operations {
 	padding-top: 20px;
+
+	.panel-heading[data-toggle="collapse"] {
+		cursor: pointer;
+
+		> h3:after {
+			content: " cliquez pour afficher les détails";
+			font-size: 0.8em;
+			opacity: .3;
+			color: black;
+			font-weight: normal;
+			font-style: italic;
+		}
+	}
+
 	input.fileselector {
 		width: auto;
 		margin-bottom: 15px;

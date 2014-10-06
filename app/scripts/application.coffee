@@ -28,6 +28,8 @@ define [
 			appRoutes:
 				'': 'showOperations'
 				'membres': 'showMemberList'
+				'membres/:pagesize': 'showMemberList'
+				'membres/:pagesize/:pageIndex': 'showMemberList'
 				'*path': 'redirectToDefault'
 
 		Backbone.history.start()
@@ -35,8 +37,18 @@ define [
 	app.showOperations = ->
 		layout.show 'operations', new OperationsView
 
-	app.showMemberList = ->
-		layout.show 'membres', new MembresView
+	app.showMemberList = (pageSize, pageIndex)->
+		pageSize = parseInt pageSize
+		pageIndex = parseInt pageIndex
+
+		if not pageSize or pageSize < 10
+			router.navigate 'membres/10/1', trigger:true
+		else if not pageIndex or pageIndex < 1
+			router.navigate "membres/#{pageSize}/1", trigger:true unless pageIndex
+		else
+			layout.show 'membres', new MembresView
+				pageSize: pageSize
+				pageIndex: pageIndex
 
 	app.redirectToDefault = ->
 		router.navigate '', trigger:true # goes to default view.

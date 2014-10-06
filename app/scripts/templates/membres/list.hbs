@@ -1,3 +1,11 @@
+<ul class="pagination">
+	<li {{#if pagination.prev.disabled}}class="disabled"{{/if}}><a {{#if pagination.prev.index}}href="#membres/{{pageSize}}/{{pagination.prev.index}}"{{/if}}>&laquo;</a></li>
+{{#each pagination.items}}
+	<li {{#if active}}class="active"{{/if}}><a href="#membres/{{../pageSize}}/{{index}}">{{index}}</a></li>
+{{/each}}
+	<li {{#if pagination.next.disabled}}class="disabled"{{/if}}><a {{#if pagination.next.index}}href="#membres/{{pageSize}}/{{pagination.next.index}}"{{/if}}>&raquo;</a></li>
+</ul>
+
 <table class="table table-striped table-hover table-condensed">
 	<thead>
 		<tr>
@@ -19,7 +27,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	{{#each membres}}
+	{{#each results}}
 		<tr>
 			<td>{{numero_membre}}</td>
 			<td>{{region}}</td>

@@ -56,14 +56,15 @@ define [
 			firstIndex = Math.max 1, data.currentPage - PAGINATION_LINK_COUNT/2
 			lastIndex = Math.min data.pageCount, firstIndex + PAGINATION_LINK_COUNT-1
 
-			pagination.next = if lastIndex is data.pageCount
-					firstIndex = Math.max 1, lastIndex - PAGINATION_LINK_COUNT+1
+			if lastIndex is data.pageCount
+				firstIndex = Math.max 1, lastIndex - PAGINATION_LINK_COUNT+1
 
+			pagination.next = if data.currentPage is data.pageCount
 					disabled: true
 				else
 					index: data.currentPage+1
 
-			pagination.prev = if firstIndex is 1
+			pagination.prev = if data.currentPage is 1
 					disabled: true
 				else
 					index: data.currentPage-1

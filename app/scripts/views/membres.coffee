@@ -59,7 +59,7 @@ define [
 			if lastIndex is data.pageCount
 				firstIndex = Math.max 1, lastIndex - PAGINATION_LINK_COUNT+1
 
-			pagination.next = if data.currentPage is data.pageCount
+			pagination.next = if data.currentPage >= data.pageCount
 					disabled: true
 				else
 					index: data.currentPage+1

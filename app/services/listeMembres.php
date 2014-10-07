@@ -9,7 +9,7 @@ use MonCompte\StopWatch;
 $stopWatch = new StopWatch();
 $stopWatch->start();
 
-define('DEFAULT_PAGE_SIZE', 10);
+define('DEFAULT_PAGE_SIZE', 20);
 header("Content-type: application/json; charset=utf-8'");
 
 $logger = Logger::getLogger('services/listeMembre');

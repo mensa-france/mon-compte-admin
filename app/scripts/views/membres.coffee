@@ -8,7 +8,7 @@ define [
 ],($, _, Backbone, Marionette, hbsTemplate, hbsListTemplate)->
 
 	PAGINATION_LINK_COUNT = 10
-	DEFAULT_PAGE_SIZE = 10
+	DEFAULT_PAGE_SIZE = 20
 
 	class ListView extends Marionette.ItemView
 		tagName: 'membre-list'
@@ -21,6 +21,8 @@ define [
 	class MembresView extends Marionette.LayoutView
 		className: 'membres'
 		template: hbsTemplate
+
+		@DEFAULT_PAGE_SIZE: DEFAULT_PAGE_SIZE # used to make value public.
 
 		regions:
 			mainRegion: '.mainRegion'

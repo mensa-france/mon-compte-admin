@@ -41,8 +41,8 @@ define [
 		pageSize = parseInt pageSize
 		pageIndex = parseInt pageIndex
 
-		if not pageSize or pageSize < 10
-			router.navigate 'membres/10/1', trigger:true
+		if not pageSize or pageSize < MembresView.DEFAULT_PAGE_SIZE
+			router.navigate "membres/#{MembresView.DEFAULT_PAGE_SIZE}/1", trigger:true
 		else if not pageIndex or pageIndex < 1
 			router.navigate "membres/#{pageSize}/1", trigger:true unless pageIndex
 		else

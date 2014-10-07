@@ -56,9 +56,14 @@ define [
 					pageSize: pageSize
 					pageIndex: pageIndex
 			else
-				layout.show 'membres', new MembresView
+				view = new MembresView
 					pageSize: pageSize
 					pageIndex: pageIndex
+
+				view.on 'select', (numeroMembre)->
+					router.navigate "profile/#{numeroMembre}", trigger:true
+
+				layout.show 'membres', view
 
 	app.showProfile = (memberId)->
 		currentView = layout.getCurrentView()

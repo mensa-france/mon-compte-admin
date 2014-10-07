@@ -14,9 +14,16 @@ define [
 		tagName: 'membre-list'
 		template: hbsListTemplate
 
+		events:
+			'dblclick .membre': 'handleMembreDblClick'
+
 		serializeData: ->
 			#console.log '>>>>>>>>>>',@options
 			@options
+
+		handleMembreDblClick: (event)->
+			$target = $(event.currentTarget)
+			@trigger 'select', $target.data('numeromembre')
 
 	class MembresView extends Marionette.LayoutView
 		className: 'membres'
@@ -39,9 +46,6 @@ define [
 				data: options
 				success: @_handleListeMembres
 
-			@collection = new Backbone.Collection
-
-
 		_handleListeMembres: (data)=>
 			#console.debug 'Received data:',data
 
@@ -50,7 +54,11 @@ define [
 				@once 'render', =>
 					@_handleListeMembres data
 			else
-				@mainRegion.show new ListView(@_addPaginationData data)
+				view = new ListView @_addPaginationData(data)
+				view.on 'select', (numeroMembre)=>
+					@trigger 'select', numeroMembre
+
+				@mainRegion.show view
 
 		_addPaginationData: (data)->
 			pagination = {}

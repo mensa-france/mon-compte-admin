@@ -11,7 +11,7 @@ $stopWatch = new StopWatch();
 $stopWatch->start();
 
 
-$logger = Logger::getLogger('services/updateMembresStatus');
+$logger = Logger::getLogger('services/updateLdapStatus');
 
 $errors = [];
 $message = null;

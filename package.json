@@ -1,6 +1,6 @@
 {
   "name": "mon-compte-admin",
-  "version": "0.1.7-SNAPSHOT",
+  "version": "0.1.7",
   "dependencies": {},
   "devDependencies": {
     "connect-livereload": "~0.3.0",

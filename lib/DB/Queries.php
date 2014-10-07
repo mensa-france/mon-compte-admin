@@ -5,6 +5,10 @@ namespace MonCompte\DB;
 use \DB as DB;
 use \MonCompte\Format;
 
+define('COORDONNEE_TYPE_PHONE','phone');
+define('COORDONNEE_TYPE_EMAIL','email');
+define('COORDONNEE_TYPE_ADDRESS','address');
+
 class Queries {
 	private static $initialized;
 
@@ -120,6 +124,54 @@ EOT
 		return DB::queryFirstRow('SELECT * FROM Membres WHERE id_ancien_si = %i', $numeroMembre);
 	}
 
+	public static function findMembreBaseData($numeroMembre) {
+		self::initialize();
+		$result = DB::queryFirstRow('SELECT id_membre, id_ancien_si AS numero_membre, prenom, nom, civilite, statut, enfants, DATE(date_naissance) AS date_naissance, DATE(date_inscription) AS date_inscription, region, devise, "" AS email, "" AS phone, "" AS adresse1, "" AS adresse2, "" AS adresse3, "" AS ville, "" AS code_postal, "" AS pays FROM Membres WHERE id_ancien_si = %i', $numeroMembre);
+
+		if ($result) {
+			$idMembre = $result['id_membre'];
+			$coordonnees = self::listCoordonnees($idMembre);
+
+			foreach ($coordonnees as $coordonnee) {
+				$value = $coordonnee['coordonnee'];
+
+				switch ($coordonnee['type_coordonnee']) {
+					case COORDONNEE_TYPE_EMAIL:
+						$result['email'] = $value;
+						break;
+
+					case COORDONNEE_TYPE_PHONE:
+						$result['phone'] = $value;
+						break;
+
+					case COORDONNEE_TYPE_ADDRESS:
+						$result = self::parseAddress($value, $result);
+						break;
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	public static function parseAddress($jsonAddress, $result=[]) {
+		$address = json_decode($jsonAddress, true); // give true as second argument to get an array.
+
+		$lines = explode("\n", trim($address['address']));
+
+		while (count($lines) < 3)
+			$lines[] = '';
+
+		$result['adresse1'] = $lines[0];
+		$result['adresse2'] = $lines[1];
+		$result['adresse3'] = $lines[2];
+		$result['ville'] = trim($address['city']);
+		$result['code_postal'] = trim($address['code']);
+		$result['pays'] = trim($address['country']);
+
+		return $result;
+	}
+
 	public static function findMembreSystemId($numeroMembre) {
 		$membreData = self::findMembre($numeroMembre);
 
@@ -187,6 +239,16 @@ EOT
 		return DB::query('SELECT * FROM Cotisations WHERE id_membre = %i', $membreSystemId);
 	}
 
+	public static function listCotisationsDataOnly($membreSystemId) {
+		self::initialize();
+		$result = DB::query('SELECT tarif, montant, DATE(date_debut) AS date_debut, DATE(date_fin) AS date_fin, region FROM Cotisations WHERE id_membre = %i ORDER BY date_fin DESC', $membreSystemId);
+
+		if (!$result)
+			$result = [];
+
+		return $result;
+	}
+
 	public static function createCotisation($membreSystemId, $data) {
 		self::initialize();
 		$data['id_membre'] = $membreSystemId;
@@ -248,11 +310,11 @@ EOT
 	}
 
 	public static function createEmail($membreId, $email, $isConfidential=true) {
-		self::createCoordonees($membreId, 'email', $email, $isConfidential);
+		self::createCoordonees($membreId, COORDONNEE_TYPE_EMAIL, $email, $isConfidential);
 	}
 
 	public static function createPhone($membreId, $phone, $isConfidential=true) {
-		self::createCoordonees($membreId, 'phone', $phone, $isConfidential);
+		self::createCoordonees($membreId, COORDONNEE_TYPE_PHONE, $phone, $isConfidential);
 	}
 
 	public static function createAddress($membreId, $adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='', $isConfidential=true) {
@@ -263,6 +325,6 @@ EOT
 			'country' => $pays,
 		]);
 
-		self::createCoordonees($membreId, 'address', $value, $isConfidential);
+		self::createCoordonees($membreId, COORDONNEE_TYPE_ADDRESS, $value, $isConfidential);
 	}
 }

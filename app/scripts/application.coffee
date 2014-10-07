@@ -4,7 +4,8 @@ define [
 	'views/layout'
 	'views/operations'
 	'views/membres'
-],(_, Marionette, LayoutView, OperationsView, MembresView)->
+	'views/profile'
+],(_, Marionette, LayoutView, OperationsView, MembresView, ProfileLayoutView)->
 
 	app = new Marionette.Application
 
@@ -27,6 +28,8 @@ define [
 
 			appRoutes:
 				'': 'showOperations'
+				'profile': 'showProfile'
+				'profile/:memberId': 'showProfile'
 				'membres': 'showMemberList'
 				'membres/:pagesize': 'showMemberList'
 				'membres/:pagesize/:pageIndex': 'showMemberList'
@@ -56,6 +59,20 @@ define [
 				layout.show 'membres', new MembresView
 					pageSize: pageSize
 					pageIndex: pageIndex
+
+	app.showProfile = (memberId)->
+		currentView = layout.getCurrentView()
+
+		if currentView instanceof ProfileLayoutView
+			currentView.update memberId
+		else
+			view = new ProfileLayoutView
+				memberId: memberId
+
+			view.on 'navigate', (memberId)->
+				router.navigate "profile/#{memberId}"
+
+			layout.show 'profile', view
 
 	app.redirectToDefault = ->
 		router.navigate '', trigger:true # goes to default view.

@@ -1,0 +1,111 @@
+{{#with profile}}
+
+<div class="row">
+	<h1 class="col-sm-10 col-sm-offset-2">#{{numero_membre}} {{parseCivilite civilite}} {{prenom}} {{nom}}</h1>
+	<div class="col-sm-10 col-sm-offset-2">Né le {{date_naissance}}</div>
+	<div class="col-sm-10 col-sm-offset-2">Inscrit le {{date_inscription}}</div>
+	<div class="col-sm-10 col-sm-offset-2">Expire le {{date_expiration}}</div>
+</div>
+
+<form class="form-horizontal" role="form" id="profileForm">
+	<h3 class="col-sm-10 col-sm-offset-2">Informations personnelles</h3>
+	<div class="form-group">
+		<label for="inputStatut" class="col-sm-2 control-label">Statut</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputStatut" value="{{statut}}" disabled="true">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputEnfant" class="col-sm-2 control-label">Nb enfants</label>
+		<div class="col-sm-10">
+			<input type="number" class="form-control" id="inputEnfant" value="{{enfants}}" min="0" pattern="[0-9]*" disabled="true">
+		</div>
+	</div>
+
+	<h3 class="col-sm-10 col-sm-offset-2">Coordonnées</h3>
+	<div class="form-group">
+		<label for="inputEmail" class="col-sm-2 control-label">Email</label>
+		<div class="col-sm-10">
+			<input type="email" class="form-control" id="inputEmail" value="{{email}}" disabled="true">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputPhone" class="col-sm-2 control-label">Téléphone</label>
+		<div class="col-sm-10">
+			<input type="tel" class="form-control" id="inputPhone" value="{{phone}}" disabled="true">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputAdresse1" class="col-sm-2 control-label">Adresse 1</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputAdresse1" value="{{adresse1}}" disabled="true">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputAdresse2" class="col-sm-2 control-label">Adresse 2</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputAdresse1" value="{{adresse3}}" disabled="true">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputAdresse3" class="col-sm-2 control-label">Adresse 3</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputAdresse1" value="{{adresse3}}" disabled="true">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputVille" class="col-sm-2 control-label">Ville</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputVille" value="{{ville}}" disabled="true">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputCodePostal" class="col-sm-2 control-label">Code postal</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputCodePostal" value="{{code_postal}}" disabled="true">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputPays" class="col-sm-2 control-label">Pays</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputPays" value="{{pays}}" disabled="true">
+		</div>
+	</div>
+
+	<h3 class="col-sm-10 col-sm-offset-2">Divers</h3>
+	<div class="form-group">
+		<label for="inputDevise" class="col-sm-2 control-label">Devise</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputDevise" value="{{devise}}" disabled="true">
+		</div>
+	</div>
+</form>
+{{/with}}
+
+<div class="row">
+	<div class="col-sm-10 col-sm-offset-2">
+		<h3>Cotisations</h3>
+		<table class="table table-striped table-condensed table-hover">
+			<thead>
+				<tr>
+					<th>Début</th>
+					<th>Fin</th>
+					<th>Région</th>
+					<th>Tarif</th>
+					<th>Montant</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{#each cotisations}}
+				<tr>
+					<td>{{date_debut}}</td>
+					<td>{{date_fin}}</td>
+					<td>{{region}}</td>
+					<td>{{tarif}}</td>
+					<td>{{montant}}</td>
+				</tr>
+			{{/each}}
+			</tbody>
+		</table>
+	</div>
+</div>

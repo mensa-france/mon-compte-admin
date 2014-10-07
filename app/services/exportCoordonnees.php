@@ -70,20 +70,7 @@ if (count($membres) > 0) {
 				case 'address':
 					if (!$foundAddress) {
 						$foundAddress = true;
-
-						$address = json_decode($value, true); // give true as second argument to get an array.
-
-						$lines = explode("\n", trim($address['address']));
-
-						while (count($lines) < 3)
-							$lines[] = '';
-
-						$membre['adresse1'] = $lines[0];
-						$membre['adresse2'] = $lines[1];
-						$membre['adresse3'] = $lines[2];
-						$membre['ville'] = trim($address['city']);
-						$membre['code_postal'] = trim($address['code']);
-						$membre['pays'] = trim($address['country']);
+						$membre = Queries::parseAddress($value, $membre);
 					}
 					break;
 			}

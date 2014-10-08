@@ -60,6 +60,7 @@ define [
 		getIdValue: ->
 			@ui.idInput.val()
 
-		handleFormSubmit: ->
+		handleFormSubmit: (event)->
+			event.preventDefault()
 			@trigger 'navigate',@getIdValue()
 			@update @getIdValue()

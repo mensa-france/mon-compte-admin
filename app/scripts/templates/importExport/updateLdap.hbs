@@ -1,7 +1,11 @@
-<div class="panel-heading">
+<div class="panel-heading" data-toggle="collapse" data-target="#updateLdapDetails">
 	<h3 class="panel-title">Mise à jour des informations LDAP</h3>
 </div>
 <div class="panel-body">
+	<div id="updateLdapDetails" class="collapse">
+		<p>Copie le nom, prenom et email de chaque membre existant dans le ldap d'authentification.<br>Créé aussi les membres non existants.</p>
+		<p><strong>Ne met PAS à jour le statut des cotisations.</strong></p>
+	</div>
 	<form class="importForm" method="POST" target="updateLdapTarget" action="services/updateLdapProfiles.php">
 		<button type="submit" class="btn btn-danger import">Mettre à jour LDAP</button>
 		<div class="waitIndicator"></div>

@@ -1,7 +1,10 @@
-<div class="panel-heading">
+<div class="panel-heading" data-toggle="collapse" data-target="#updateStatusDetails">
 	<h3 class="panel-title">Mise à jour du statut des cotisations</h3>
 </div>
 <div class="panel-body">
+	<div id="updateStatusDetails" class="collapse">
+		<p>Met à jour la fiche ldap de chaque membre pour indiquer s'il a le droit de se connecter en fonction de la date de fin de sa dernière cotisation.</p>
+	</div>
 	<form class="importForm" method="POST" target="updateStatusTarget" action="services/updateMembresStatus.php">
 		<button type="submit" class="btn btn-danger import">Mettre à jour les statuts</button>
 		<div class="waitIndicator"></div>

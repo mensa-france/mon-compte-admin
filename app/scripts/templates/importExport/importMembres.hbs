@@ -2,23 +2,28 @@
 	<h3 class="panel-title">Imports Membres</h3>
 </div>
 <div class="panel-body">
-	<ul id="memberImportDetails" class="collapse">
-		<li>numero_membre</li>
-		<li>region</li>
-		<li>civilite <span class="muted">(Mme, Mlle ou M.)</span></li>
-		<li>prenom</li>
-		<li>nom</li>
-		<li>date_naissance <span class="muted">(JJ/MM/AAAA)</span></li>
-		<li>date_inscription <span class="muted">(JJ/MM/AAAA)</span></li>
-		<li>email <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
-		<li>telephone <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
-		<li>adresse1 <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
-		<li>adresse2 <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
-		<li>adresse3 <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
-		<li>ville <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
-		<li>code_postal <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
-		<li>pays <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
-	</ul>
+	<div id="memberImportDetails" class="collapse">
+		<p>Importe les données personnelles pour les membres concernés.</p>
+		<p>N'importe les coordonnées <strong>QUE pour les nouveaux membres</strong>.</p>
+
+		<ul>
+			<li>numero_membre</li>
+			<li>region</li>
+			<li>civilite <span class="muted">(Mme, Mlle ou M.)</span></li>
+			<li>prenom</li>
+			<li>nom</li>
+			<li>date_naissance <span class="muted">(JJ/MM/AAAA)</span></li>
+			<li>date_inscription <span class="muted">(JJ/MM/AAAA)</span></li>
+			<li>email <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
+			<li>telephone <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
+			<li>adresse1 <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
+			<li>adresse2 <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
+			<li>adresse3 <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
+			<li>ville <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
+			<li>code_postal <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
+			<li>pays <span class="muted">(Uniquement utilisé pour la CREATION de membre)</span></li>
+		</ul>
+	</div>
 
 	<form class="importForm" enctype="multipart/form-data" method="POST" target="importMembreTarget" action="services/importMembres.php">
 		<input type="file" class="form-control fileselector" required="true" name="csv-import">

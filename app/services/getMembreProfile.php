@@ -50,4 +50,4 @@ if (count($errors) > 0)
 
 echo json_encode($response);
 
-$logger->debug('Update Membres Status duration: '.$stopWatch->getElapsedTime().'s');
+$logger->debug('getMembreProfile duration: '.$stopWatch->getElapsedTime().'s');

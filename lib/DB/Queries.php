@@ -119,6 +119,31 @@ EOT
 		);
 	}
 
+	public static function listMembresCotisants() {
+		self::initialize();
+		return DB::query(<<<EOT
+			SELECT
+				prenom,
+				nom,
+				id_ancien_si AS numero_membre,
+				DATE_FORMAT(MAX(c.date_fin), '%d/%m/%Y') AS fin_cotisation
+			FROM
+				Membres m,
+				Cotisations c
+			WHERE
+				m.id_membre = c.id_membre AND
+				c.date_fin >= NOW() AND
+				m.region <> 'ETR' AND
+				m.region <> 'INT' AND
+				m.region <> 'INC'
+			GROUP BY
+				m.id_membre
+			ORDER BY
+				numero_membre;
+EOT
+		);
+	}
+
 	public static function findMembre($numeroMembre) {
 		self::initialize();
 		return DB::queryFirstRow('SELECT * FROM Membres WHERE id_ancien_si = %i', $numeroMembre);

@@ -9,7 +9,7 @@ use MonCompte\StopWatch;
 $stopWatch = new StopWatch();
 $stopWatch->start();
 
-define('CSV_SEPARATOR',";");
+define('CSV_SEPARATOR',",");
 define('CSV_DELIMITER','"');
 
 $RESULT_KEYS = [
@@ -45,7 +45,7 @@ if (count($membres) > 0) {
 		fputcsv($filehandler, $values, CSV_SEPARATOR, CSV_DELIMITER);
 	}
 
-	fputcsv($outstream, $RESULT_KEYS, CSV_SEPARATOR, CSV_DELIMITER);
+	//fputcsv($outstream, $RESULT_KEYS, CSV_SEPARATOR, CSV_DELIMITER);
 	array_walk($membres, '__outputCSV', $outstream);
 	fclose($outstream);
 } else {

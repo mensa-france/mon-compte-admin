@@ -51,10 +51,8 @@ require.config
 require [
 	'consolePolyfill'
 	'application'
-	'templates'
-	'templates/helpers'
 	'version'
-], (consolePolyfill, app, templates, templateHelpers, Version)->
+], (consolePolyfill, app, Version)->
 	console.log 'Application version:',Version
 
 	app.setMainRegion '#container'

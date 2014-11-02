@@ -15,6 +15,49 @@ require.config
 
 		spin: '../bower_components/spinjs/spin'
 
+		'bootstrap.affix': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/affix'
+		'bootstrap.alert': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/alert'
+		'bootstrap.button': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/button'
+		'bootstrap.carousel': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/carousel'
+		'bootstrap.collapse': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse'
+		'bootstrap.dropdown': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/dropdown'
+		'bootstrap.tab': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tab'
+		'bootstrap.transition': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/transition'
+		'bootstrap.scrollspy': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/scrollspy'
+		'bootstrap.modal': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/modal'
+		'bootstrap.tooltip': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tooltip'
+		'bootstrap.popover': '../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/popover'
+
+	map:
+		'bootstrap.*':
+			'jQuery': 'jquery'
+
+	shim:
+		'bootstrap.affix':
+			deps: ['jquery']
+		'bootstrap.alert':
+			deps: ['jquery']
+		'bootstrap.button':
+			deps: ['jquery']
+		'bootstrap.carousel':
+			deps: ['jquery']
+		'bootstrap.collapse':
+			deps: ['jquery']
+		'bootstrap.dropdown':
+			deps: ['jquery']
+		'bootstrap.tab':
+			deps: ['jquery']
+		'bootstrap.transition':
+			deps: ['jquery']
+		'bootstrap.scrollspy':
+			deps: ['jquery']
+		'bootstrap.modal':
+			deps: ['jquery']
+		'bootstrap.tooltip':
+			deps: ['jquery']
+		'bootstrap.popover':
+			deps: ['jquery','bootstrap.tooltip']
+
 	packages: [
 		'templates/helpers'
 	]
@@ -23,6 +66,7 @@ require [
 	'consolePolyfill'
 	'application'
 	'version'
+	'bootstrap'
 ], (consolePolyfill, app, Version)->
 	console.log 'Application version:',Version
 

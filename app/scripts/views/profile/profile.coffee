@@ -1,11 +1,11 @@
 define [
 	'marionette'
-	'hbs!templates/profile/profile'
-],(Marionette, hbsTemplate)->
+	'templates'
+],(Marionette, templates)->
 
 	class ProfileView extends Marionette.ItemView
 		className: 'well profile'
-		template: hbsTemplate
+		template: templates.profile_profile
 
 		serializeData: ->
 			@options

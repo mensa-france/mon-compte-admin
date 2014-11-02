@@ -1,17 +1,17 @@
 define [
 	'marionette'
-	'hbs!templates/operations'
+	'templates'
 	'views/importExport/exportCoordonnees'
 	'views/importExport/exportMembresCotisants'
 	'views/importExport/importCotisations'
 	'views/importExport/importMembres'
 	'views/importExport/updateStatus'
 	'views/importExport/updateLdap'
-],(Marionette, hbsTemplate, ExportCoordonneesView, ExportMembresCotisantsView, ImportCotisationsView, ImportMembresView, UpdateStatusView, UpdateLdapView)->
+],(Marionette, templates, ExportCoordonneesView, ExportMembresCotisantsView, ImportCotisationsView, ImportMembresView, UpdateStatusView, UpdateLdapView)->
 
 	class OperationsView extends Marionette.LayoutView
 		className: 'operations'
-		template: hbsTemplate
+		template: templates.operations
 
 		regions:
 			region1: '.region1'

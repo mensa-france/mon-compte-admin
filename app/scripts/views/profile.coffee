@@ -2,16 +2,16 @@ define [
 	'jquery'
 	'lodash'
 	'marionette'
-	'hbs!templates/profile'
+	'templates'
 	'views/messages/error'
 	'views/profile/profile'
-],($, _, Marionette, hbsTemplate, ErrorMessageView, ProfileView)->
+],($, _, Marionette, templates, ErrorMessageView, ProfileView)->
 
 	PROFILE_SERVICE_ADDRESS = 'services/getMembreProfile.php'
 
 	class ProfileLayoutView extends Marionette.LayoutView
 		className: 'profileLayout'
-		template: hbsTemplate
+		template: templates.profile
 
 		regions:
 			resultRegion: '#resultRegion'

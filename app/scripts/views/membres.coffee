@@ -3,16 +3,15 @@ define [
 	'lodash'
 	'backbone'
 	'marionette'
-	'hbs!templates/membres'
-	'hbs!templates/membres/list'
-],($, _, Backbone, Marionette, hbsTemplate, hbsListTemplate)->
+	'templates'
+],($, _, Backbone, Marionette, templates)->
 
 	PAGINATION_LINK_COUNT = 10
 	DEFAULT_PAGE_SIZE = 20
 
 	class ListView extends Marionette.ItemView
 		tagName: 'membre-list'
-		template: hbsListTemplate
+		template: templates.membres_list
 
 		events:
 			'dblclick .membre': 'handleMembreDblClick'
@@ -27,7 +26,7 @@ define [
 
 	class MembresView extends Marionette.LayoutView
 		className: 'membres'
-		template: hbsTemplate
+		template: templates.membres
 
 		@DEFAULT_PAGE_SIZE: DEFAULT_PAGE_SIZE # used to make value public.
 

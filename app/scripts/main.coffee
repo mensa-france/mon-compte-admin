@@ -8,7 +8,7 @@ require.config
 		backbone: '../bower_components/backbone/backbone'
 		marionette: '../bower_components/backbone.marionette/lib/backbone.marionette'
 
-		handlebars: '../bower_components/handlebars/handlebars'
+		handlebars: '../bower_components/handlebars/handlebars.runtime.amd'
 
 		hbs: '../bower_components/require-handlebars-plugin/hbs'
 		json2: '../bower_components/require-handlebars-plugin/hbs/json2'

@@ -1,8 +1,8 @@
 define [
 	'marionette'
-	'hbs!templates/importExport/exportCoordonnees'
-],(Marionette, hbsTemplate)->
+	'templates'
+],(Marionette, templates)->
 
 	class ExportCoordonneesView extends Marionette.ItemView
 		className: 'panel panel-info export coordonnees'
-		template: hbsTemplate
+		template: templates.importExport_exportCoordonnees

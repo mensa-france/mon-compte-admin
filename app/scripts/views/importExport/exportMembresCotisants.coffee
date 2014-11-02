@@ -1,8 +1,8 @@
 define [
 	'marionette'
-	'hbs!templates/importExport/exportMembresCotisants'
-],(Marionette, hbsTemplate)->
+	'templates'
+],(Marionette, templates)->
 
 	class ExportMembresCotisantsView extends Marionette.ItemView
 		className: 'panel panel-info export cotisants'
-		template: hbsTemplate
+		template: templates.importExport_exportMembresCotisants

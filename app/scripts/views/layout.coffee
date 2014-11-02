@@ -1,14 +1,14 @@
 define [
 	'jquery'
 	'marionette'
-	'hbs!templates/layout'
-],($, Marionette, hbsTemplate)->
+	'templates'
+],($, Marionette, templates)->
 
 	ACTIVE_CLASS = 'active'
 	NAVID_ATTRIBUTE = 'navid'
 
 	class LayoutView extends Marionette.LayoutView
-		template: hbsTemplate
+		template: templates.layout
 
 		regions:
 			mainRegion: '#mainRegion'

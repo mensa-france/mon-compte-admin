@@ -1,10 +1,10 @@
 define [
 	'marionette'
-	'hbs!templates/messages/error'
-],(Marionette, hbsTemplate)->
+	'templates'
+],(Marionette, templates)->
 
 	class ErrorMessageView extends Marionette.ItemView
-		template: hbsTemplate
+		template: templates.messages_error
 
 		serializeData: ->
 			@options

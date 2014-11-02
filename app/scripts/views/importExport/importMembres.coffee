@@ -1,11 +1,8 @@
 define [
 	'marionette'
-	'hbs!templates/importExport/importMembres'
-	'hbs!templates/messages/error'
-	'hbs!templates/messages/info'
-	'hbs!templates/messages/success'
+	'templates'
 	'spin'
-],(Marionette, hbsTemplate, errorTemplate, infoTemplate, successTemplate, Spin)->
+],(Marionette, templates, Spin)->
 
 	SPIN_OPTIONS =
 		lines: 13
@@ -27,7 +24,7 @@ define [
 
 	class ImportMembresView extends Marionette.ItemView
 		className: 'panel panel-danger import membres'
-		template: hbsTemplate
+		template: templates.importExport_importMembres
 
 		ui:
 			iframe: 'iframe'
@@ -81,13 +78,13 @@ define [
 			@ui.messageZone.empty()
 
 		showError: (title, message)=>
-			@showMessage title,message,errorTemplate
+			@showMessage title,message,templates.messages_error
 
 		showInfo: (title, message)=>
-			@showMessage title,message,infoTemplate
+			@showMessage title,message,templates.messages_info
 
 		showSuccess: (title, message)=>
-			@showMessage title,message,successTemplate
+			@showMessage title,message,templates.messages_success
 
 		showMessage: (title, message, template)=>
 			$message = $(template

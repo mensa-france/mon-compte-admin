@@ -4,7 +4,7 @@
   "dependencies": {},
   "devDependencies": {
     "connect-livereload": "~0.3.0",
-    "gateway": "~0.2.1",
+    "gateway": "~1.0.0",
     "grunt": "~0.4.4",
     "grunt-bower-requirejs": "~0.4.1",
     "grunt-concurrent": "~0.4.2",

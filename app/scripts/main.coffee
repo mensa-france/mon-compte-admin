@@ -1,7 +1,6 @@
 require.config
 	paths:
 		jquery: '../bower_components/jquery/dist/jquery'
-		'jquery.transit': '../bower_components/jquery.transit/jquery.transit'
 
 		underscore: '../bower_components/underscore/underscore'
 
@@ -10,36 +9,11 @@ require.config
 
 		handlebars: '../bower_components/handlebars/handlebars.runtime'
 
-		hbs: '../bower_components/require-handlebars-plugin/hbs'
-		json2: '../bower_components/require-handlebars-plugin/hbs/json2'
-		i18nprecompile: '../bower_components/require-handlebars-plugin/hbs/i18nprecompile'
-
 		lodash: '../bower_components/lodash/dist/lodash'
 
 		consolePolyfill: '../bower_components/console-polyfill/index'
 
 		spin: '../bower_components/spinjs/spin'
-
-	shim:
-		bootstrap:
-			deps: ['jquery']
-			exports: 'jquery'
-
-		underscore:
-			exports: '_'
-
-		backbone:
-			deps: ['jquery','underscore']
-			exports: 'Backbone'
-
-		json2:
-			exports: 'JSON'
-
-		'jquery.transit':
-			deps: ['jquery']
-
-	hbs:
-		disableI18n: true
 
 	packages: [
 		'templates/helpers'

@@ -32,9 +32,6 @@ require.config
 			deps: ['jquery','underscore']
 			exports: 'Backbone'
 
-		handlebars:
-			exports: 'Handlebars'
-
 		json2:
 			exports: 'JSON'
 

@@ -41,8 +41,13 @@ define [
 			$.ajax
 				url: 'services/deleteCotisation.php'
 				data: options
-				success: @handleDeleteResult
-				error: @handleDeleteResult
+				success: @refreshCotisations
+				error: @refreshCotisations
 
-		handleDeleteResult: =>
-			@trigger 'refresh'
+		refreshCotisations: =>
+			$.ajax
+				url: 'services/listeCotisations.php'
+				data:
+					numero_membre: @options.profile.numero_membre
+				success: (data)=>
+					@collection.reset data.cotisations

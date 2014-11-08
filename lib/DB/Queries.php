@@ -266,12 +266,23 @@ EOT
 
 	public static function listCotisationsDataOnly($membreSystemId) {
 		self::initialize();
-		$result = DB::query('SELECT tarif, montant, DATE(date_debut) AS date_debut, DATE(date_fin) AS date_fin, region FROM Cotisations WHERE id_membre = %i ORDER BY date_fin DESC', $membreSystemId);
+		$result = DB::query('SELECT id_cotisation AS id, tarif, montant, DATE(date_debut) AS date_debut, DATE(date_fin) AS date_fin, region FROM Cotisations WHERE id_membre = %i ORDER BY date_fin DESC', $membreSystemId);
 
 		if (!$result)
 			$result = [];
 
 		return $result;
+	}
+
+	public static function deleteCotisation($numeroMembre, $cotisationId) {
+		self::initialize();
+
+		$membreId = self::findMembreSystemId($numeroMembre);
+
+		if ($membreId)
+			return DB::delete('Cotisations','id_membre = %i AND id_cotisation = %i',$membreId,$cotisationId);
+
+		return false;
 	}
 
 	public static function createCotisation($membreSystemId, $data) {

@@ -44,15 +44,20 @@ define [
 					url: PROFILE_SERVICE_ADDRESS
 					data:
 						numero_membre: memberId
-					success: @_processProfile
+					success: (data)=>
+						@_processProfile data, memberId
 					error: @_processError
 
-		_processProfile: (data)=>
+		_processProfile: (data, memberId)=>
 			if not _.isEmpty data.errors
 				for error in data.errors
 					@resultRegion.show new ErrorMessageView(title:'Error fetching profile' ,message: error)
 			else
-				@resultRegion.show new ProfileView(data)
+				view = new ProfileView data
+				view.on 'refresh', =>
+					@update memberId
+
+				@resultRegion.show view
 
 		_processError: =>
 			console.error 'Error:',arguments

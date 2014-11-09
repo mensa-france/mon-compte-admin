@@ -1,8 +1,8 @@
 <div class="row">
 	<h1 class="col-sm-10 col-sm-offset-2">#{{numero_membre}} {{parseCivilite civilite}} {{prenom}} {{nom}}</h1>
-	<div class="col-sm-10 col-sm-offset-2">Né le {{date_naissance}}</div>
-	<div class="col-sm-10 col-sm-offset-2">Inscrit le {{date_inscription}}</div>
-	<div class="col-sm-10 col-sm-offset-2">Expire le {{date_expiration}}</div>
+	<div class="col-sm-10 col-sm-offset-2">Né le {{formatDate date_naissance}}</div>
+	<div class="col-sm-10 col-sm-offset-2">Inscrit le {{formatDate date_inscription}}</div>
+	<div class="col-sm-10 col-sm-offset-2">Expire le {{formatDate date_expiration}}</div>
 </div>
 
 <form class="form-horizontal" role="form" id="profileForm">

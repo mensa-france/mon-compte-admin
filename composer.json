@@ -2,7 +2,8 @@
 	"require": {
 		"php": ">=5.4.4",
 		"katzgrau/klogger": "1.0.*",
-		"sergeytsalkov/meekrodb": "2.3.*"
+		"sergeytsalkov/meekrodb": "2.3.*",
+		"vlucas/valitron": "~1.2"
 	},
 	"autoload": {
 		"psr-4": {

@@ -19,11 +19,18 @@ require.config
 		bootstrap: '../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap'
 		'bootstrap-datepicker': '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker'
 		'bootstrap-datepicker.fr': '../bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr'
+		'bootstrap-notify': '../bower_components/bootstrap-notify/js/bootstrap-notify'
 
 	shim:
 		bootstrap:
 			deps: [
 				'jquery'
+			]
+
+		'bootstrap-notify':
+			deps: [
+				'jquery'
+				'bootstrap'
 			]
 
 		'bootstrap-datepicker':

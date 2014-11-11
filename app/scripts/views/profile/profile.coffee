@@ -5,6 +5,7 @@ define [
 	'templates'
 	'templates/helpers/formatDate'
 	'bootstrap-datepicker'
+	'bootstrap-notify'
 ],(Backbone, Marionette, BindingCompositeView, templates, formatDateHelper)->
 
 	class CotisationView extends Marionette.ItemView
@@ -36,6 +37,7 @@ define [
 
 		ui:
 			dateInputGroups: '.input-group.date'
+			notificationArea: '.notifications'
 
 		bindingOptions:
 			date_inscription:
@@ -77,8 +79,11 @@ define [
 			$.ajax
 				url: 'services/deleteCotisation.php'
 				data: options
-				success: @refreshDataKeepView
-				error: @refreshData
+				success: =>
+					@showSuccess 'La cotisation a été supprimée.'
+					@refreshDataKeepView()
+				error: =>
+					@showError 'Une erreur est survenue.'
 
 		setData: (data)->
 			@model.set data.profile
@@ -91,7 +96,7 @@ define [
 			@_refreshData()
 
 		refreshDataKeepView: =>
-			@refreshData true
+			@_refreshData true
 
 		refreshCotisations: =>
 			$.ajax
@@ -106,5 +111,18 @@ define [
 			$.ajax
 				url: 'services/updateMembreProfile.php'
 				data: @model.toJSON()
-				success: @refreshData
+				success: @handleProfileSave
 				error: @refreshData
+
+		handleProfileSave: (data)=>
+			if not _.isEmpty data?.errors
+				@showError data.errors.join '<br>'
+			else
+				@showSuccess 'Profile enregistré avec succès.'
+				@refreshDataKeepView()
+
+		showSuccess: (message)->
+			@ui.notificationArea.notify(message:message).show()
+
+		showError: (message)->
+			@ui.notificationArea.notify(message:message, type:'danger').show()

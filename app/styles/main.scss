@@ -22,6 +22,16 @@ body {
 	color: #ccc;
 }
 
+.notifications {
+	&.top-right {
+		top: 60px;
+	}
+
+	.alert {
+		box-shadow: 2px 2px 2px rgba(0,0,0,.4);
+	}
+}
+
 #mainRegion > .operations {
 	padding-top: 20px;
 

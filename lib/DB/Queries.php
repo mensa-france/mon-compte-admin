@@ -172,7 +172,7 @@ EOT
 
 		self::updateEmail($membreId, $data['email']);
 		self::updatePhone($membreId, $data['phone']);
-		self::updateAddress($membreId, $data['adresse1'], $data['adresse2'], $data['adresse3'], $data['code_postal'], $data['ville'], $data['pays']);
+		self::updateAddress($membreId, $data['adresse1'], $data['adresse2'], $data['adresse3'], $data['ville'], $data['code_postal'], $data['pays']);
 	}
 
 	public static function findMembreBaseData($numeroMembre) {

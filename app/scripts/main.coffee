@@ -6,6 +6,7 @@ require.config
 
 		backbone: '../bower_components/backbone/backbone'
 		marionette: '../bower_components/backbone.marionette/lib/backbone.marionette'
+		stickit: '../bower_components/backbone.stickit/backbone.stickit'
 
 		handlebars: '../bower_components/handlebars/handlebars.runtime'
 
@@ -16,11 +17,26 @@ require.config
 		spin: '../bower_components/spinjs/spin'
 
 		bootstrap: '../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap'
+		'bootstrap-datepicker': '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker'
+		'bootstrap-datepicker.fr': '../bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr'
 
 	shim:
 		bootstrap:
 			deps: [
 				'jquery'
+			]
+
+		'bootstrap-datepicker':
+			deps: [
+				'jquery'
+				'bootstrap'
+			]
+
+		'bootstrap-datepicker.fr':
+			deps: [
+				'jquery'
+				'bootstrap'
+				'bootstrap-datepicker'
 			]
 
 	packages: [
@@ -30,11 +46,9 @@ require.config
 require [
 	'consolePolyfill'
 	'application'
-	'version'
 	'bootstrap'
-], (consolePolyfill, app, Version)->
-	console.log 'Application version:',Version
-
+	'bootstrap-datepicker.fr'
+], (consolePolyfill, app)->
 	app.setMainRegion '#container'
 	app.start()
 

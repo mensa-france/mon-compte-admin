@@ -1,22 +1,65 @@
 <div class="row">
-	<h1 class="col-sm-10 col-sm-offset-2">#{{numero_membre}} {{parseCivilite civilite}} {{prenom}} {{nom}}</h1>
-	<div class="col-sm-10 col-sm-offset-2">Né le {{formatDate date_naissance}}</div>
-	<div class="col-sm-10 col-sm-offset-2">Inscrit le {{formatDate date_inscription}}</div>
+	<h1 class="col-sm-10 col-sm-offset-2">#<span class="binding-numero_membre"></span> <span class="binding-prenom"></span> <span class="binding-nom"></span></h1>
 	<div class="col-sm-10 col-sm-offset-2">Expire le {{formatDate date_expiration}}</div>
 </div>
 
 <form class="form-horizontal" role="form" id="profileForm">
+	<h3 class="col-sm-10 col-sm-offset-2">Informations de base</h3>
+	<div class="form-group">
+		<label for="inputRegistrationDate" class="col-sm-2 control-label">Date d'inscription</label>
+		<div class="col-sm-10">
+			<div class="input-group date">
+				<input type="text" class="form-control" id="inputRegistrationDate" data-binding="date_inscription"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputTitle" class="col-sm-2 control-label">Civilité</label>
+		<div class="col-sm-10">
+			<select class="form-control" id="inputTitle" data-binding="civilite">
+				<option value="mister">M.</option>
+				<option value="mrs">Mme</option>
+				<option value="ms">Mlle</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputFirstname" class="col-sm-2 control-label">Prénom</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputFirstname" data-binding="prenom">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputLastname" class="col-sm-2 control-label">Nom</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputLastname" data-binding="nom">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputBirthdate" class="col-sm-2 control-label">Date de naissance</label>
+		<div class="col-sm-10">
+			<div class="input-group date">
+				<input type="text" class="form-control" id="inputBirthdate" data-binding="date_naissance"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+			</div>
+		</div>
+	</div>
+
 	<h3 class="col-sm-10 col-sm-offset-2">Informations personnelles</h3>
 	<div class="form-group">
 		<label for="inputStatut" class="col-sm-2 control-label">Statut</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputStatut" value="{{statut}}" disabled="true">
+			<select class="form-control" id="inputStatut" data-binding="statut">
+				<option value="">Non spécifié</option>
+				<option value="single">Célibataire</option>
+				<option value="couple">En couple</option>
+				<option value="deceased">Décédé</option>
+			</select>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="inputEnfant" class="col-sm-2 control-label">Nb enfants</label>
 		<div class="col-sm-10">
-			<input type="number" class="form-control" id="inputEnfant" value="{{enfants}}" min="0" pattern="[0-9]*" disabled="true">
+			<input type="number" class="form-control" id="inputEnfant" data-binding="enfants" min="0" pattern="[0-9]*">
 		</div>
 	</div>
 
@@ -24,49 +67,49 @@
 	<div class="form-group">
 		<label for="inputEmail" class="col-sm-2 control-label">Email</label>
 		<div class="col-sm-10">
-			<input type="email" class="form-control" id="inputEmail" value="{{email}}" disabled="true">
+			<input type="email" class="form-control" id="inputEmail" data-binding="email">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="inputPhone" class="col-sm-2 control-label">Téléphone</label>
 		<div class="col-sm-10">
-			<input type="tel" class="form-control" id="inputPhone" value="{{phone}}" disabled="true">
+			<input type="tel" class="form-control" id="inputPhone" data-binding="phone">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="inputAdresse1" class="col-sm-2 control-label">Adresse 1</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputAdresse1" value="{{adresse1}}" disabled="true">
+			<input type="text" class="form-control" id="inputAdresse1" data-binding="adresse1">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="inputAdresse2" class="col-sm-2 control-label">Adresse 2</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputAdresse1" value="{{adresse2}}" disabled="true">
+			<input type="text" class="form-control" id="inputAdresse1" data-binding="adresse2">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="inputAdresse3" class="col-sm-2 control-label">Adresse 3</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputAdresse1" value="{{adresse3}}" disabled="true">
+			<input type="text" class="form-control" id="inputAdresse1" data-binding="adresse3">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="inputVille" class="col-sm-2 control-label">Ville</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputVille" value="{{ville}}" disabled="true">
+			<input type="text" class="form-control" id="inputVille" data-binding="ville">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="inputCodePostal" class="col-sm-2 control-label">Code postal</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputCodePostal" value="{{code_postal}}" disabled="true">
+			<input type="text" class="form-control" id="inputCodePostal" data-binding="code_postal">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="inputPays" class="col-sm-2 control-label">Pays</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputPays" value="{{pays}}" disabled="true">
+			<input type="text" class="form-control" id="inputPays" data-binding="pays">
 		</div>
 	</div>
 
@@ -74,7 +117,7 @@
 	<div class="form-group">
 		<label for="inputDevise" class="col-sm-2 control-label">Devise</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputDevise" value="{{devise}}" disabled="true">
+			<input type="text" class="form-control" id="inputDevise" data-binding="devise">
 		</div>
 	</div>
 </form>

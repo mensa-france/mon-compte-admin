@@ -9,8 +9,6 @@ define [
 
 	app = new Marionette.Application
 
-	console.group 'Initializing application.'
-
 	layout = new LayoutView
 
 	router = null
@@ -81,7 +79,5 @@ define [
 
 	app.redirectToDefault = ->
 		router.navigate '', trigger:true # goes to default view.
-
-	console.groupEnd()
 
 	app #return the app instance.

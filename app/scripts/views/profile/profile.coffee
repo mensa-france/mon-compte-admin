@@ -26,6 +26,11 @@ define [
 		childView: CotisationView
 		childViewContainer: '.cotisationList'
 
+		events:
+			'submit #profileForm': 'handleProfileFormSubmit'
+			'click .cancelButton': 'refreshData' # Reload from server.
+			'click .submitButton': 'handleProfileFormSubmit'
+
 		childEvents:
 			'delete': 'handleDeleteCotisation'
 
@@ -43,6 +48,8 @@ define [
 				onSet: 'toInternalDate'
 				initialize: 'updateDatePickers'
 				afterUpdate: 'updateDatePickers'
+			date_expiration:
+				onGet: 'toDisplayDate'
 
 		updateDatePickers: ->
 			@ui.dateInputGroups.datepicker 'update' # we need to refresh the values in date pickers.
@@ -70,8 +77,21 @@ define [
 			$.ajax
 				url: 'services/deleteCotisation.php'
 				data: options
-				success: @refreshCotisations
-				error: @refreshCotisations
+				success: @refreshDataKeepView
+				error: @refreshData
+
+		setData: (data)->
+			@model.set data.profile
+			@collection.reset data.cotisations
+
+		_refreshData: (keepView)=>
+			@trigger 'refresh', keepView
+
+		refreshData: =>
+			@_refreshData()
+
+		refreshDataKeepView: =>
+			@refreshData true
 
 		refreshCotisations: =>
 			$.ajax
@@ -80,3 +100,11 @@ define [
 					numero_membre: @options.profile.numero_membre
 				success: (data)=>
 					@collection.reset data.cotisations
+
+		handleProfileFormSubmit: (event)->
+			event?.preventDefault()
+			$.ajax
+				url: 'services/updateMembreProfile.php'
+				data: @model.toJSON()
+				success: @refreshData
+				error: @refreshData

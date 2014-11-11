@@ -4,6 +4,7 @@ namespace MonCompte\DB;
 
 use \DB as DB;
 use \MonCompte\Format;
+use \MonCompte\Arrays;
 
 define('COORDONNEE_TYPE_PHONE','phone');
 define('COORDONNEE_TYPE_EMAIL','email');
@@ -147,6 +148,23 @@ EOT
 	public static function findMembre($numeroMembre) {
 		self::initialize();
 		return DB::queryFirstRow('SELECT * FROM Membres WHERE id_ancien_si = %i', $numeroMembre);
+	}
+
+	public static function setMembreBaseData($numeroMembre, $data) {
+		self::initialize();
+
+		$VALID_KEYS = [
+			'prenom',
+			'nom',
+			'civilite',
+			'date_inscription',
+			'date_naissance',
+			'region',
+			'statut',
+			'devise',
+		];
+
+		DB::update('Membres',Arrays::filterKeys($data,$VALID_KEYS),'id_ancien_si=%i',intval($numeroMembre));
 	}
 
 	public static function findMembreBaseData($numeroMembre) {

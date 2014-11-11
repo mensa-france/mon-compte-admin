@@ -1,10 +1,16 @@
 <div class="row">
 	<h1 class="col-sm-10 col-sm-offset-2">#<span class="binding-numero_membre"></span> <span class="binding-prenom"></span> <span class="binding-nom"></span></h1>
-	<div class="col-sm-10 col-sm-offset-2">Expire le {{formatDate date_expiration}}</div>
+	<div class="col-sm-10 col-sm-offset-2">Expire le <span class="binding-date_expiration"></span></div>
 </div>
 
 <form class="form-horizontal" role="form" id="profileForm">
 	<h3 class="col-sm-10 col-sm-offset-2">Informations de base</h3>
+	<div class="form-group">
+		<label for="inputRegion" class="col-sm-2 control-label">Région</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="inputRegion" data-binding="region">
+		</div>
+	</div>
 	<div class="form-group">
 		<label for="inputRegistrationDate" class="col-sm-2 control-label">Date d'inscription</label>
 		<div class="col-sm-10">
@@ -35,6 +41,8 @@
 			<input type="text" class="form-control" id="inputLastname" data-binding="nom">
 		</div>
 	</div>
+
+	<h3 class="col-sm-10 col-sm-offset-2">Informations personnelles</h3>
 	<div class="form-group">
 		<label for="inputBirthdate" class="col-sm-2 control-label">Date de naissance</label>
 		<div class="col-sm-10">
@@ -43,8 +51,6 @@
 			</div>
 		</div>
 	</div>
-
-	<h3 class="col-sm-10 col-sm-offset-2">Informations personnelles</h3>
 	<div class="form-group">
 		<label for="inputStatut" class="col-sm-2 control-label">Statut</label>
 		<div class="col-sm-10">
@@ -119,6 +125,11 @@
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="inputDevise" data-binding="devise">
 		</div>
+	</div>
+
+	<div class="buttonBar">
+		<button type="button" class="btn btn-link cancelButton">Annuler</button>
+		<button type="button" class="btn btn-primary submitButton">Valider</button>
 	</div>
 </form>
 

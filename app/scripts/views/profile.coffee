@@ -28,16 +28,16 @@ define [
 		initialize: ->
 			@update @options.memberId
 
-		update: (memberId)=>
+		update: (memberId, keepView)=>
 			if not @_isRendered
 				@once 'render', =>
-					@_fetchProfile memberId
+					@_fetchProfile memberId, keepView
 			else
-				@_fetchProfile memberId
+				@_fetchProfile memberId, keepView
 
-		_fetchProfile: (memberId)=>
+		_fetchProfile: (memberId, keepView)=>
 			@ui.idInput.val memberId
-			@resultRegion.empty()
+			@_clearProfileView() unless keepView
 
 			if memberId
 				$.ajax
@@ -48,16 +48,24 @@ define [
 						@_processProfile data, memberId
 					error: @_processError
 
+		_clearProfileView: =>
+			@resultRegion.empty()
+			delete @profileView
+
 		_processProfile: (data, memberId)=>
 			if not _.isEmpty data.errors
+				@_clearProfileView()
 				for error in data.errors
 					@resultRegion.show new ErrorMessageView(title:'Error fetching profile' ,message: error)
 			else
-				view = new ProfileView data
-				view.on 'refresh', =>
-					@update memberId
+				if @profileView
+					@profileView.setData data
+				else
+					@profileView = new ProfileView data
+					@profileView.on 'refresh', (keepView)=>
+						@update memberId, keepView
 
-				@resultRegion.show view
+					@resultRegion.show @profileView
 
 		_processError: =>
 			console.error 'Error:',arguments

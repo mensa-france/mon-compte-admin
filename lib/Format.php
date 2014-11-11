@@ -43,4 +43,13 @@ class Format {
 	public static function serializeAddressValueFromArray($data) {
 		return self::serializeAddressValue($data['adresse1'], $data['adresse2'], $data['adresse3'], $data['ville'], $data['code_postal'], $data['pays']);
 	}
+
+	public static function trimAll($array) {
+		foreach ($array as $key => $value) {
+			if (is_string($value))
+				$array[$key] = trim($value);
+		}
+
+		return $array;
+	}
 }

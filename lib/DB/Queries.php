@@ -150,8 +150,10 @@ EOT
 		return DB::queryFirstRow('SELECT * FROM Membres WHERE id_ancien_si = %i', $numeroMembre);
 	}
 
-	public static function setMembreBaseData($numeroMembre, $data) {
+	public static function saveMembreData($numeroMembre, $data) {
 		self::initialize();
+
+		$data = Format::trimAll($data);
 
 		$VALID_KEYS = [
 			'prenom',
@@ -165,6 +167,12 @@ EOT
 		];
 
 		DB::update('Membres',Arrays::filterKeys($data,$VALID_KEYS),'id_ancien_si=%i',intval($numeroMembre));
+
+		$membreId = self::findMembreId($numeroMembre);
+
+		self::updateEmail($membreId, $data['email']);
+		self::updatePhone($membreId, $data['phone']);
+		self::updateAddress($membreId, $data['adresse1'], $data['adresse2'], $data['adresse3'], $data['code_postal'], $data['ville'], $data['pays']);
 	}
 
 	public static function findMembreBaseData($numeroMembre) {
@@ -352,33 +360,62 @@ EOT
 		DB::insert('Coordonnees', $data);
 	}
 
+	public static function hasCoordonnee($membreId, $type) {
+		self::initialize();
+		$coordonnee = DB::queryFirstRow('SELECT * FROM Coordonnees WHERE id_membre = %s AND type_coordonnee = %s', $membreId, $type);
+
+		return !is_null($coordonnee);
+	}
 
 	public static function updateCoordonnee($membreId, $type, $value) {
 		self::initialize();
 
-		$data = [
-			'coordonnee' => $value,
-		];
+		if (self::hasCoordonnee($membreId, $type)) {
+			$data = [
+				'coordonnee' => $value,
+				'usage_coordonnee' => 'home',
+			];
 
-		DB::update('Coordonnees', $data, 'id_membre = %s AND type_coordonnee = %s', $membreId, $type);
+			DB::update('Coordonnees', $data, 'id_membre = %s AND type_coordonnee = %s', $membreId, $type);
+		} else {
+			self::createCoordonees($membreId, $type, $value);
+		}
 	}
 
 	public static function createEmail($membreId, $email, $isConfidential=true) {
 		self::createCoordonees($membreId, COORDONNEE_TYPE_EMAIL, $email, $isConfidential);
 	}
 
+	public static function updateEmail($membreId, $email) {
+		self::updateCoordonnee($membreId, COORDONNEE_TYPE_EMAIL, $email);
+	}
+
 	public static function createPhone($membreId, $phone, $isConfidential=true) {
 		self::createCoordonees($membreId, COORDONNEE_TYPE_PHONE, $phone, $isConfidential);
 	}
 
-	public static function createAddress($membreId, $adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='', $isConfidential=true) {
-		$value = json_encode([
+	public static function updatePhone($membreId, $phone) {
+		self::updateCoordonnee($membreId, COORDONNEE_TYPE_PHONE, $phone);
+	}
+
+	private static function createAddressValue($adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='') {
+		return json_encode([
 			'address' => trim("{$adresse1}\n{$adresse2}\n{$adresse3}"),
 			'city' => $ville,
 			'code' => $codePostal,
 			'country' => $pays,
 		]);
+	}
+
+	public static function createAddress($membreId, $adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='', $isConfidential=true) {
+		$value = self::createAddressValue($adresse1, $adresse2, $adresse3, $ville, $codePostal, $pays);
 
 		self::createCoordonees($membreId, COORDONNEE_TYPE_ADDRESS, $value, $isConfidential);
+	}
+
+	public static function updateAddress($membreId, $adresse1='', $adresse2='', $adresse3='', $ville='', $codePostal='', $pays='') {
+		$value = self::createAddressValue($adresse1, $adresse2, $adresse3, $ville, $codePostal, $pays);
+
+		self::updateCoordonnee($membreId, COORDONNEE_TYPE_ADDRESS, $value);
 	}
 }

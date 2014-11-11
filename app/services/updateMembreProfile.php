@@ -38,7 +38,8 @@ $v->rule('integer','enfants')->message('{field} n\'est pas un nombre entier.');
 if (!$numeroMembre) {
 	$errors[] = "Invalid value for numero_membre: {$numeroMembreStr}";
 } else if ($v->validate()) {
-	Queries::setMembreBaseData($numeroMembre, $_GET);
+	Queries::saveMembreData($numeroMembre, $_GET);
+
 	$membreData = Queries::findMembreBaseData($numeroMembre);
 
 	$ldapResult = LdapSync::updateOrCreateProfile($numeroMembre, $membreData);

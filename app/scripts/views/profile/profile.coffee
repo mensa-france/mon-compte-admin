@@ -27,11 +27,8 @@ define [
 			'delete': 'handleDeleteCotisation'
 
 		initialize: ->
-			@collection = new Backbone.Collection
-			@collection.reset @options.cotisations
-
-		serializeData: ->
-			@options.profile
+			@model = new Backbone.Model @options.profile
+			@collection = new Backbone.Collection @options.cotisations
 
 		handleDeleteCotisation: (view, cotisationId)->
 			options =

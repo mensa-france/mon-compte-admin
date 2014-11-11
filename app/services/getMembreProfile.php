@@ -40,6 +40,8 @@ if (!$numeroMembre) {
 
 		if (count($cotisations) > 0)
 			$membreData['date_expiration'] = $cotisations[0]['date_fin']; # first cotisation is the most recent one.
+		else
+			$membreData['date_expiration'] = '1970-01-01';
 
 		$response['profile'] = $membreData;
 	}

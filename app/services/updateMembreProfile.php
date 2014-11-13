@@ -38,6 +38,8 @@ $v->rule('in','statut',[null,'','single','couple','deceased'])->message('{field}
 $v->rule('integer','enfants')->message('{field} n\'est pas un nombre entier.');
 
 $MAX_LENGTHS = [
+	'nom' => 35,
+	'prenom' => 35,
 	'adresse1' => 35,
 	'adresse2' => 35,
 	'adresse3' => 35,

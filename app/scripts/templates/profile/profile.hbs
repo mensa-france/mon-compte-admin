@@ -2,58 +2,15 @@
 <div class='notifications top-right'></div>
 
 <div class="row">
-	<h1 class="col-sm-10 col-sm-offset-2">#<span class="binding-numero_membre"></span> <span class="binding-prenom"></span> <span class="binding-nom"></span></h1>
+	<h1 class="col-sm-10 col-sm-offset-2">#<span class="binding-numero_membre"></span> <span class="binding-civilite"></span> <span class="binding-prenom"></span> <span class="binding-nom"></span></h1>
+	<div class="col-sm-10 col-sm-offset-2">Région <span class="binding-region"></span></div>
+	<div class="col-sm-10 col-sm-offset-2">Né(e) le <span class="binding-date_naissance"></span></div>
+	<div class="col-sm-10 col-sm-offset-2">Inscrit(e) le <span class="binding-date_inscription"></span></div>
 	<div class="col-sm-10 col-sm-offset-2">Expire le <span class="binding-date_expiration"></span></div>
 </div>
 
 <form class="form-horizontal" role="form" id="profileForm">
-	<h3 class="col-sm-10 col-sm-offset-2">Informations de base</h3>
-	<div class="form-group">
-		<label for="inputRegion" class="col-sm-2 control-label">Région</label>
-		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputRegion" data-binding="region">
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="inputRegistrationDate" class="col-sm-2 control-label">Date d'inscription</label>
-		<div class="col-sm-10">
-			<div class="input-group date">
-				<input type="text" class="form-control" id="inputRegistrationDate" data-binding="date_inscription"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-			</div>
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="inputTitle" class="col-sm-2 control-label">Civilité</label>
-		<div class="col-sm-10">
-			<select class="form-control" id="inputTitle" data-binding="civilite">
-				<option value="mister">M.</option>
-				<option value="mrs">Mme</option>
-				<option value="ms">Mlle</option>
-			</select>
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="inputFirstname" class="col-sm-2 control-label">Prénom</label>
-		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputFirstname" data-binding="prenom" maxlength="35">
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="inputLastname" class="col-sm-2 control-label">Nom</label>
-		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputLastname" data-binding="nom" maxlength="35">
-		</div>
-	</div>
-
 	<h3 class="col-sm-10 col-sm-offset-2">Informations personnelles</h3>
-	<div class="form-group">
-		<label for="inputBirthdate" class="col-sm-2 control-label">Date de naissance</label>
-		<div class="col-sm-10">
-			<div class="input-group date">
-				<input type="text" class="form-control" id="inputBirthdate" data-binding="date_naissance"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-			</div>
-		</div>
-	</div>
 	<div class="form-group">
 		<label for="inputStatut" class="col-sm-2 control-label">Statut</label>
 		<div class="col-sm-10">

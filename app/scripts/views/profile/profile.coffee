@@ -8,6 +8,11 @@ define [
 	'bootstrap-notify'
 ],(Backbone, Marionette, BindingCompositeView, templates, formatDateHelper)->
 
+	TITLE_MAPPING =
+		mister: 'M.'
+		mrs: 'Mme'
+		ms: 'Mlle'
+
 	class CotisationView extends Marionette.ItemView
 		tagName: 'tr'
 		template: templates.profile_cotisation
@@ -52,9 +57,15 @@ define [
 				afterUpdate: 'updateDatePickers'
 			date_expiration:
 				onGet: 'toDisplayDate'
+			civilite:
+				onGet: 'toDisplayTitle'
+
 
 		updateDatePickers: ->
 			@ui.dateInputGroups.datepicker 'update' # we need to refresh the values in date pickers.
+
+		toDisplayTitle: (source)->
+			TITLE_MAPPING[source] ? ''
 
 		toDisplayDate: (source)->
 			formatDateHelper(source)
